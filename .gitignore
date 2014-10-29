@@ -35,4 +35,9 @@ Icon
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
-target/*.*
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
