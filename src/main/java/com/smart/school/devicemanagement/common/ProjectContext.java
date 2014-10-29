@@ -14,7 +14,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
 /**
- * ÔÚweb¡£xml ³õÊ¼»¯springÈİÆ÷µÄÉÏÏÂÎÄ¶ÔÏó
+ * åœ¨webã€‚xml åˆå§‹åŒ–springå®¹å™¨çš„ä¸Šä¸‹æ–‡å¯¹è±¡
  * @version 1.0.0
  *
  */
@@ -36,14 +36,14 @@ public class ProjectContext extends HttpServlet{
 
 	public static ApplicationContext getApplicationContext(){
 		if (applicationContext == null) {
-			log.error("applicationContext Îª¿Õ!!!Çë¼ì²éÊÇ·ñÔÚweb.xmlÖĞÅäÖÃÁË¶ÔÓ¦¹¤³ÌµÄProjectInitServlet×ÓÀàµÄ³õÊ¼»¯");
+			log.error("applicationContext ä¸ºç©º!!!è¯·æ£€æŸ¥æ˜¯å¦åœ¨web.xmlä¸­é…ç½®äº†å¯¹åº”å·¥ç¨‹çš„ProjectInitServletå­ç±»çš„åˆå§‹åŒ–");
 		}
 		return applicationContext;
 	}
 	
 	
 	/**
-	 * ÔÚµ±Ç°ÈİÆ÷ÖĞ»ñÈ¡ÖÆ¶¨µÄbean
+	 * åœ¨å½“å‰å®¹å™¨ä¸­è·å–åˆ¶å®šçš„bean
 	 * @param requiredType
 	 * @return
 	 */
@@ -52,7 +52,7 @@ public class ProjectContext extends HttpServlet{
 	}
 	
 	/**
-	 * »ñÈ¡µ±Ç°SpringÈİÆ÷ÖĞµÄBean
+	 * è·å–å½“å‰Springå®¹å™¨ä¸­çš„Bean
 	 * @param beanName
 	 * @return
 	 */
@@ -61,7 +61,7 @@ public class ProjectContext extends HttpServlet{
 		if (getApplicationContext().containsBean(beanName)) {
 			bean = getApplicationContext().getBean(beanName);
 		}else {
-			log.warn("ÇëÇóµÄBean²»´æÔÚ+"+beanName);
+			log.warn("è¯·æ±‚çš„Beanä¸å­˜åœ¨+"+beanName);
 		}
 		return bean;
 	}
@@ -77,7 +77,7 @@ public class ProjectContext extends HttpServlet{
 //	}
 	
 	public static String getFunctionCoord(String functionName,Class[] paramClasses){
-		//"functionName+²ÎÊı¸öÊı"
+		//"functionName+å‚æ•°ä¸ªæ•°"
 		final char linkMark = '+';
 //		Joiner joiner = Joiner.on(linkMark);
 //		StringBuilder sbFunctionBase = new StringBuilder(functionName).append(linkMark);					
@@ -88,21 +88,21 @@ public class ProjectContext extends HttpServlet{
 	
 	
 	/**
-	 * »ñÈ¡Ö¸¶¨beanµÄÖ¸¶¨º¯Êı
+	 * è·å–æŒ‡å®šbeançš„æŒ‡å®šå‡½æ•°
 	 * @param beanName
 	 * @param functionName
 	 * @return
 	 */
 	public static Method getBeanMethods(String beanName,String functionName,Class[] paramClasses){
-		String rowCoord = beanName;											//ĞĞ×ø±ê
-		String columnCoord = getFunctionCoord(functionName,paramClasses);	//ÁĞ×ø±ê
+		String rowCoord = beanName;											//è¡Œåæ ‡
+		String columnCoord = getFunctionCoord(functionName,paramClasses);	//åˆ—åæ ‡
 		if (!methodCacheTable.containsRow(beanName) && !methodCacheTable.containsColumn(functionName)) {
 			initBeanMethods(beanName);
 		}
 		List<Method> methods = methodCacheTable.get(rowCoord, columnCoord);
 
 		if (methods == null){
-//			log.debug(String.format("%s---%s--²»´æÔÚ", rowCoord, columnCoord));
+//			log.debug(String.format("%s---%s--ä¸å­˜åœ¨", rowCoord, columnCoord));
 			return null;
 		}
 		

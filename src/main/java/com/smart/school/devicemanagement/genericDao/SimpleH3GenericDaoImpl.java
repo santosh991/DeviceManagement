@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
 import com.smart.school.devicemanagement.common.ReflectionUtils;
 
 /**
- * ·ºĞÍDaoÄ£°å
+ * æ³›å‹Daoæ¨¡æ¿
  * @author xuhao
  *
  * @param <T>
@@ -44,7 +44,7 @@ public class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements IReco
 	}
 
 	/**
-	 * ²ÉÓÃ@Autowired°´ÀàĞÍ×¢ÈëSessionFactory, µ±ÓĞ¶à¸öSesionFactoryµÄÊ±ºòÔÚ×ÓÀàÖØÔØ±¾º¯Êı.
+	 * é‡‡ç”¨@AutowiredæŒ‰ç±»å‹æ³¨å…¥SessionFactory, å½“æœ‰å¤šä¸ªSesionFactoryçš„æ—¶å€™åœ¨å­ç±»é‡è½½æœ¬å‡½æ•°.
 	 */
 	@Autowired
 	public void setSessionFactory(final SessionFactory sessionFactory) {
@@ -136,7 +136,7 @@ public class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements IReco
 	}
 
 	public Query createQuery(final String queryString, final Map<String, ?> values){
-		Assert.hasText(queryString, "queryString²»ÄÜÎª¿Õ");
+		Assert.hasText(queryString, "queryStringä¸èƒ½ä¸ºç©º");
 		Query query = getSession().createQuery(queryString);
 		if (values != null) {
 			query.setProperties(values);
@@ -145,7 +145,7 @@ public class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements IReco
 	}
 	
 	public Query createQuery(final String queryString, final Object... values){
-		Assert.hasText(queryString, "queryString²»ÄÜÎª¿Õ");
+		Assert.hasText(queryString, "queryStringä¸èƒ½ä¸ºç©º");
 		Query query = getSession().createQuery(queryString);
 		if (values != null) {
 			for (int i = 0; i < values.length; i++) {

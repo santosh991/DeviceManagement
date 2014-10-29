@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.hibernate.Query;
 /**
- * ¶ÔÓÚÊı¾İ¿â¼ÇÂ¼µÄCRUD²Ù×÷µÄ½Ó¿Ú
+ * å¯¹äºæ•°æ®åº“è®°å½•çš„CRUDæ“ä½œçš„æ¥å£
  *
  */
 public interface IRecordCrud <T, PK extends Serializable>{
