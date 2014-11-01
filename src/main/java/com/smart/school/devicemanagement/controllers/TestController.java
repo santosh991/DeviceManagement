@@ -3,6 +3,7 @@ package com.smart.school.devicemanagement.controllers;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,7 +11,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.smart.school.devicemanagement.models.User;
 
-
+@Controller
+@RequestMapping(value = "/helloworld")
 public class TestController {
     @RequestMapping("test/login.do")  // 请求url地址映射，类似Struts的action-mapping
     public String testLogin(@RequestParam(value="username")String username, String password, HttpServletRequest request) {
@@ -49,7 +51,7 @@ public class TestController {
         return new ModelAndView("loginSuccess");
     }
  
-    @Resource(name = "loginService")  // 获取applicationContext.xml中bean的id为loginService的，并注入
+//    @Resource(name = "loginService")  // 获取applicationContext.xml中bean的id为loginService的，并注入
 //    private LoginService loginService;  //等价于spring传统注入方式写get和set方法，这样的好处是简洁工整，省去了不必要得代码
  
     @RequestMapping("/test/login4.do")
