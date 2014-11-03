@@ -26,6 +26,7 @@ public interface IRecordQuery <T, PK extends Serializable>{
 	
 	Criteria createCriteria(final Criterion... criterions);
 	
+	Criteria createCriteria(final int firstResult,final int maxResults,final Criterion... criterions);
 	//分页接口
 	int getCount(final String hql , final Object... values);
 	List<T> getPagedList(final String hql,final int pageSize,final int pageIndex,final Object... values);

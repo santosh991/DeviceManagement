@@ -16,6 +16,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smart.school.devicemanagement.common.ProjectContext;
+import com.smart.school.devicemanagement.dao.impl.DeviceInfoDao;
 import com.smart.school.devicemanagement.models.DeviceInfo;
 
 @RunWith(SpringJUnit4ClassRunner.class)

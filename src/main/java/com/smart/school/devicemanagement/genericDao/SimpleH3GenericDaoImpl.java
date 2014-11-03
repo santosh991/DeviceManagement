@@ -55,14 +55,18 @@ public class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements IReco
 		return sessionFactory.getCurrentSession();
 	}
 	
-	
-	
-	
 	public Criteria createCriteria(final Criterion... criterions) {
 		Criteria criteria = getSession().createCriteria(entityClass);
 		for (Criterion c : criterions) {
 			criteria.add(c);
 		}
+		return criteria;
+	}
+	
+	public Criteria createCriteria(final int firstResult,final int maxResults,final Criterion... criterions) {
+		Criteria criteria = createCriteria(criterions);
+		criteria.setFirstResult(firstResult);
+		criteria.setMaxResults(maxResults);
 		return criteria;
 	}
 	
@@ -99,6 +103,7 @@ public class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements IReco
 
 		return createQuery(hql , value).list();
 	}
+	
 	
 	public List<T> getAll(){
 		return getSession().createCriteria(entityClass).list();

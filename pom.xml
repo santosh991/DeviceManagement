@@ -189,6 +189,11 @@
 		  <artifactId>validation-api</artifactId>
 		  <version>1.1.0.Final</version>
 		</dependency>
+		<dependency>
+		  <groupId>org.jboss.logging</groupId>
+		  <artifactId>jboss-logging</artifactId>
+		  <version>3.1.4.GA</version>
+		</dependency>
         <!-- <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -221,6 +226,12 @@
 			<artifactId>dyCommonTools</artifactId>
 			<version>1.0.0</version>
 		</dependency>-->
+		<dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>9.1.3.v20140225</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     
     <build>
@@ -269,7 +280,7 @@
                 </dependencies>
             </plugin> -->
             
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>
                 <version>6.1.5</version>
@@ -288,6 +299,20 @@
                             </includes>
                         </scanTargetPattern>
                     </scanTargetPatterns>
+                </configuration>
+            </plugin>-->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
+                    <webApp>
+                        <contextPath>/Web</contextPath>
+                    </webApp>
+                    <httpConnector>
+                        <port>8080</port>
+                    </httpConnector>
+                    <webDefaultXml>src/main/resources/webdefault.xml</webDefaultXml>
                 </configuration>
             </plugin>
             <plugin>

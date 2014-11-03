@@ -9,6 +9,15 @@
                 value="[DeviceManagement] %p [%t] %c{1}.%M(%L) | %m%n"/>
         </layout>
     </appender>
+    
+    <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+    	<param name="File" value="c:/log/dm-service.log" />
+    	<param name="append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                value="[DeviceManagement] %p [%t] %c{1}.%M(%L) | %m%n"/>
+        </layout>
+    </appender>
 
     <logger name="net.sf.ehcache">
         <level value="ERROR"/>
@@ -51,11 +60,14 @@
     
     <logger name="com.smart.school">
         <level value="DEBUG"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </logger>
 
     <root>
         <level value="WARN"/>
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 </log4j:configuration>

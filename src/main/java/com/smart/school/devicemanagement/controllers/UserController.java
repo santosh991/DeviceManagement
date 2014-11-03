@@ -1,5 +1,7 @@
 package com.smart.school.devicemanagement.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.smart.school.devicemanagement.common.ProjectContext;
-import com.smart.school.devicemanagement.dao.UserDao;
+import com.smart.school.devicemanagement.dao.impl.UserDao;
+import com.smart.school.devicemanagement.dao.impl.UserRoleDao;
 import com.smart.school.devicemanagement.models.User;
+import com.smart.school.devicemanagement.models.UserRole;
 import com.smart.school.devicemanagement.web.domain.UserLoginModel;
 
 @Controller
@@ -42,6 +46,10 @@ public class UserController {
             return login(model);
         }
         else{
+        	List<UserRole> userRoles = ProjectContext.getBean(UserRoleDao.class).getList("user", user);
+        	if (userRoles.size() > 0) {
+				
+			}
 //        	else if(account.getEnable()==false)
 //        		result.addError(new FieldError("contentModel","username","此用户被禁用，不能登录。"));
 //        	else
