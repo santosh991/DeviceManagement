@@ -6,7 +6,7 @@
     <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                value="[DeviceManagement] %p [%t] %c{1}.%M(%L) | %m%n"/>
+                value="%d [DeviceManagement] %p [%t] %c{1}.%M(%L) | %m%n"/>
         </layout>
     </appender>
     
@@ -15,7 +15,7 @@
     	<param name="append" value="true" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                value="[DeviceManagement] %p [%t] %c{1}.%M(%L) | %m%n"/>
+                value="%d [DeviceManagement] %p [%t] %c{1}.%M(%L) | %m%n"/>
         </layout>
     </appender>
 
@@ -36,10 +36,6 @@
         <level value="WARN"/>
     </logger>
   
-    <!--logger name="org.hibernate.SQL">
-        <level value="DEBUG"/>
-    </logger-->
-
     <logger name="org.springframework">
         <level value="WARN"/>
     </logger>

@@ -6,12 +6,15 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.dao.IUserDao;
 import com.smart.school.devicemanagement.models.RightInfo;
 import com.smart.school.devicemanagement.models.User;
 import com.smart.school.devicemanagement.services.IUserService;
 
+@Service("UserServiceImpl")
 public class UserServiceImpl implements IUserService {
 
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);

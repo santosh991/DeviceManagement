@@ -1,10 +1,8 @@
 package com.smart.school.devicemanagement.controllers;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,13 +11,11 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.smart.school.devicemanagement.common.ProjectContext;
-import com.smart.school.devicemanagement.dao.impl.UserDao;
 import com.smart.school.devicemanagement.dao.impl.UserRoleDao;
 import com.smart.school.devicemanagement.models.User;
 import com.smart.school.devicemanagement.models.UserRole;
+import com.smart.school.devicemanagement.services.IUserService;
 import com.smart.school.devicemanagement.web.domain.UserLoginModel;
 
 @Controller
@@ -39,7 +35,7 @@ public class UserController {
 		if(result.hasErrors())
             return login(model);
 		
-		User user = ProjectContext.getBean(UserDao.class).verify(userLoginModel.getStrName(), userLoginModel.getPsd());
+		User user = ProjectContext.getBean(IUserService.class).verify(userLoginModel.getStrName(), userLoginModel.getPsd());
 		if(user==null){
 	        result.addError(new FieldError("userLoginModel","strName","用户名或密码错误。"));
 	        result.addError(new FieldError("userLoginModel","psd","用户名或密码错误。"));

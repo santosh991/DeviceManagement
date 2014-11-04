@@ -19,31 +19,31 @@ import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.dao.impl.DeviceInfoDao;
 import com.smart.school.devicemanagement.models.DeviceInfo;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/appcontext.xml"})
-@Transactional
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true) 
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"/appcontext.xml"})
+//@Transactional
+//@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true) 
 public class SpringDaoTest {
 
-	@Autowired
-    private ApplicationContext applicationContext;
-	
-	
-	@Before
-	public void initTest(){
-		ProjectContext.setAc(applicationContext);
-	}
-	
-
-	@Test
-	public void testGetAll() {
-		DeviceInfoDao dao = ProjectContext.getBean(DeviceInfoDao.class);
-		Criteria criteria = dao.createCriteria();
-		criteria.setMaxResults(50);
-		List<DeviceInfo> list = criteria.list();
-		assertNotNull(list);
-		assertTrue(""+list.size()+">0",list.size() >= 0 && list.size() <= 50);
-	}
+//	@Autowired
+//    private ApplicationContext applicationContext;
+//	
+//	
+//	@Before
+//	public void initTest(){
+//		ProjectContext.setAc(applicationContext);
+//	}
+//	
+//
+//	@Test
+//	public void testGetAll() {
+//		DeviceInfoDao dao = ProjectContext.getBean(DeviceInfoDao.class);
+//		Criteria criteria = dao.createCriteria();
+//		criteria.setMaxResults(50);
+//		List<DeviceInfo> list = criteria.list();
+//		assertNotNull(list);
+//		assertTrue(""+list.size()+">0",list.size() >= 0 && list.size() <= 50);
+//	}
 	
 //	@Test
 	public void testFindByCondition() {
@@ -60,7 +60,7 @@ public class SpringDaoTest {
 		fail("Not yet implemented");
 	}
 	
-	@Test
+//	@Test
 	public void testMerge() {
 		String id = "12321333";
 		DeviceInfo deviceInfo = ProjectContext.getBean(DeviceInfoDao.class).get(id);

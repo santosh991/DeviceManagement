@@ -24,7 +24,7 @@ import com.smart.school.devicemanagement.common.ReflectionUtils;
  * @param <T>
  * @param <PK>
  */
-public class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements IRecordCrud<T, PK>,IRecordQuery<T, PK>{
+public abstract class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements IRecordCrud<T, PK>{
 
 	private Class<T> entityClass;
 	
