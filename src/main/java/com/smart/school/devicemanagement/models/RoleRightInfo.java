@@ -14,7 +14,7 @@ public class RoleRightInfo {
 
 	private String pk;
 	private Role role;
-	private RightInfo rightInfo;
+	private Authority authority;
 	public RoleRightInfo() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -40,12 +40,12 @@ public class RoleRightInfo {
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fk_rightInfo")
-	public RightInfo getRightInfo() {
-		return rightInfo;
+	@JoinColumn(name = "fk_authority")
+	public Authority getAuthority() {
+		return authority;
 	}
-	public void setRightInfo(RightInfo rightInfo) {
-		this.rightInfo = rightInfo;
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
 	}
 	
 	

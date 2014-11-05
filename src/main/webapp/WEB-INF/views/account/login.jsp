@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html >
 
 <%@ include file="../shared/taglib.jsp"%>
 
-<html>
+<html lang-"zh-CN">
 
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -46,7 +46,7 @@
 	<!-- BEGIN LOGIN -->
 	<div class="content">
 		<!-- BEGIN LOGIN FORM -->
-		<form:form modelAttribute="contentModel" class="login-form" method="POST">
+		<form:form modelAttribute="userLoginModel" class="login-form" method="POST">
 			<h3 class="form-title">账户登录</h3>
 			<!-- <div class="alert alert-error hide">
 				<button class="close" data-dismiss="alert"></button>
@@ -57,16 +57,16 @@
 				<label class="control-label visible-ie8 visible-ie9">用户名</label>
 				<div class="input-icon">
 					<i class="icon-user"></i>
-					<form:input path="username" class="form-control placeholder-no-fix" autocomplete="off" placeholder="用户名"/><br/>
-					<form:errors path="username" class="field-has-error"></form:errors>  
+					<form:input path="strName" class="form-control placeholder-no-fix" autocomplete="off" placeholder="用户名"/><br/>
+					<form:errors path="strName" class="field-has-error"></form:errors>  
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label visible-ie8 visible-ie9">密码</label>
 				<div class="input-icon">
 					<i class="icon-lock"></i>
-					<form:password path="password" class="form-control placeholder-no-fix" autocomplete="off" placeholder="密码"/><br/>
-					<form:errors path="password" class="field-has-error"></form:errors>    
+					<form:password path="psd" class="form-control placeholder-no-fix" autocomplete="off" placeholder="密码"/><br/>
+					<form:errors path="psd" class="field-has-error"></form:errors>    
 				</div>
 			</div>
 			<div class="form-actions">

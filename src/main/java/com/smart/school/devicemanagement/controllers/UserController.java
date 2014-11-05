@@ -1,20 +1,24 @@
 package com.smart.school.devicemanagement.controllers;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.smart.school.devicemanagement.common.ProjectContext;
-import com.smart.school.devicemanagement.dao.impl.UserRoleDao;
+import com.smart.school.devicemanagement.dao.impl.DeviceInfoDao;
+import com.smart.school.devicemanagement.models.Authority;
 import com.smart.school.devicemanagement.models.User;
-import com.smart.school.devicemanagement.models.UserRole;
 import com.smart.school.devicemanagement.services.IUserService;
 import com.smart.school.devicemanagement.web.domain.UserLoginModel;
 
@@ -22,29 +26,38 @@ import com.smart.school.devicemanagement.web.domain.UserLoginModel;
 @RequestMapping(value = "/user")
 public class UserController {
 
+	private static final Logger log = LoggerFactory.getLogger(DeviceInfoDao.class);
+	
+	private final String strUserLoginModel = "userLoginModel";
+	
+	
 	@RequestMapping(value="/login", method = {RequestMethod.GET})
     public String login(Model model) {
-        if (!model.containsAttribute("userLoginModel")) {
-        	model.addAttribute("userLoginModel", null);
+        if (!model.containsAttribute(strUserLoginModel)) {
+        	model.addAttribute(strUserLoginModel, new UserLoginModel());
 		}
-        return "login";
+        return "account/login";
     }
 	
 	@RequestMapping(value="/login", method = {RequestMethod.POST})
-	public String login(HttpServletRequest request,Model model,@Valid @ModelAttribute("userLoginModel") UserLoginModel userLoginModel, BindingResult result){
+	public String login(HttpServletRequest request,Model model,@Valid @ModelAttribute(strUserLoginModel) UserLoginModel userLoginModel, BindingResult result){
 		if(result.hasErrors())
             return login(model);
-		
-		User user = ProjectContext.getBean(IUserService.class).verify(userLoginModel.getStrName(), userLoginModel.getPsd());
+		IUserService userService = ProjectContext.getBean(IUserService.class);
+		User user = userService.verify(userLoginModel.getStrName(), userLoginModel.getPsd());
 		if(user==null){
-	        result.addError(new FieldError("userLoginModel","strName","用户名或密码错误。"));
-	        result.addError(new FieldError("userLoginModel","psd","用户名或密码错误。"));
+	        result.addError(new FieldError(strUserLoginModel,"strName","用户名或密码错误。"));
+	        result.addError(new FieldError(strUserLoginModel,"psd","用户名或密码错误。"));
             return login(model);
         }
         else{
-        	List<UserRole> userRoles = ProjectContext.getBean(UserRoleDao.class).getList("user", user);
-        	if (userRoles.size() > 0) {
-				
+        	if (user.getEnumState() != 0) {
+        		result.addError(new FieldError(strUserLoginModel,"strName","此用户被禁用，不能登录。"));
+        		return login(model);
+			}
+        	List<Authority> authorities = userService.getUserRightInfos(user);
+        	for (Authority authority : authorities) {
+        		log.debug(authority.getStrName()+":"+authority.getUrl());
 			}
 //        	else if(account.getEnable()==false)
 //        		result.addError(new FieldError("contentModel","username","此用户被禁用，不能登录。"));
@@ -90,9 +103,10 @@ public class UserController {
 //        	AuthHelper.setSessionAccountAuth(request, accountAuth);
         }
         
-        String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
-        if(returnUrl==null)
-        	returnUrl="/home/index";
-    	return "redirect:"+returnUrl; 	
+//        String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
+//        if(returnUrl==null)
+//        	returnUrl="/home/index";
+//    	return "redirect:"+returnUrl; 	
+    	return "redirect:/home/index"; 	
 	}
 }
