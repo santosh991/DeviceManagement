@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.smart.school.devicemanagement.common.BaseController;
 import com.smart.school.devicemanagement.models.User;
 
 @Controller
 @RequestMapping(value = "/helloworld")
-public class TestController {
+public class TestController extends BaseController{
     @RequestMapping("test/login.do")  // 请求url地址映射，类似Struts的action-mapping
     public String testLogin(@RequestParam(value="username")String username, String password, HttpServletRequest request) {
         // @RequestParam是指请求url地址映射中必须含有的参数(除非属性required=false)

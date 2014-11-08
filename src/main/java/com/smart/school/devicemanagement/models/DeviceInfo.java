@@ -52,7 +52,7 @@ public class DeviceInfo {
 		this.mac = mac;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="fk_schoolInfo")
 	public SchoolInfo getSchoolInfo() {
 		return schoolInfo;

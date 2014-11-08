@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class RoleRightInfo {
 
 	private String pk;
-	private Role role;
+	private RoleInfo roleInfo;
 	private Authority authority;
 	public RoleRightInfo() {
 		super();
@@ -31,12 +31,12 @@ public class RoleRightInfo {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fk_role")
-	public Role getRole() {
-		return role;
+	@JoinColumn(name = "fk_roleInfo")
+	public RoleInfo getRoleInfo() {
+		return roleInfo;
 	}
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoleInfo(RoleInfo roleInfo) {
+		this.roleInfo = roleInfo;
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)

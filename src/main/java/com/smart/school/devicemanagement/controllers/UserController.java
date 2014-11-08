@@ -1,5 +1,6 @@
 package com.smart.school.devicemanagement.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,22 +12,31 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.smart.school.devicemanagement.auth.AccountAuth;
+import com.smart.school.devicemanagement.auth.AccountRole;
+import com.smart.school.devicemanagement.auth.AuthHelper;
+import com.smart.school.devicemanagement.auth.AuthPassport;
+import com.smart.school.devicemanagement.auth.AuthorityMenu;
+import com.smart.school.devicemanagement.auth.PermissionMenu;
+import com.smart.school.devicemanagement.common.BaseController;
 import com.smart.school.devicemanagement.common.ProjectContext;
-import com.smart.school.devicemanagement.dao.impl.DeviceInfoDao;
+import com.smart.school.devicemanagement.common.utilities.PageListUtil;
 import com.smart.school.devicemanagement.models.Authority;
+import com.smart.school.devicemanagement.models.RoleInfo;
 import com.smart.school.devicemanagement.models.User;
 import com.smart.school.devicemanagement.services.IUserService;
 import com.smart.school.devicemanagement.web.domain.UserLoginModel;
 
 @Controller
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserController extends BaseController{
 
-	private static final Logger log = LoggerFactory.getLogger(DeviceInfoDao.class);
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	private final String strUserLoginModel = "userLoginModel";
 	
@@ -55,58 +65,72 @@ public class UserController {
         		result.addError(new FieldError(strUserLoginModel,"strName","此用户被禁用，不能登录。"));
         		return login(model);
 			}
+        	
         	List<Authority> authorities = userService.getUserRightInfos(user);
-        	for (Authority authority : authorities) {
-        		log.debug(authority.getStrName()+":"+authority.getUrl());
+        	List<RoleInfo> roles = userService.getRoles(user);
+        	if (roles.size() > 0 && authorities.size() > 0) {
+            	RoleInfo role = roles.get(0);
+            	AccountAuth accountAuth=new AccountAuth(user.getPk(), user.getStrName());
+            	AccountRole accountRole=new AccountRole(role.getPk(), role.getStrName());
+            	List<AuthorityMenu> authorityMenus=new ArrayList<AuthorityMenu>();
+
+            	for(Authority authority :authorities){
+            		log.debug(authority.getStrName()+":"+authority.getUrl());
+            		if(authority.getParent()==null){
+            			AuthorityMenu authorityMenu=new AuthorityMenu(authority.getPk(), authority.getStrName(), authority.getItemIcon(), authority.getUrl());
+            			
+            			List<AuthorityMenu> childrenAuthorityMenus=new ArrayList<AuthorityMenu>();
+            			for(Authority subAuthority :authorities){   				
+            				if(subAuthority.getParent()!=null && subAuthority.getParent().getPk().equals(authority.getPk()))
+            					childrenAuthorityMenus.add(new AuthorityMenu(subAuthority.getPk(), subAuthority.getStrName(), subAuthority.getItemIcon(), subAuthority.getUrl()));
+            			}
+            			authorityMenu.setChildrens(childrenAuthorityMenus);
+            			authorityMenus.add(authorityMenu);
+            		}
+            	}
+
+        		List<PermissionMenu> permissionMenus=new ArrayList<PermissionMenu>(); 	
+            	for(Authority authority : authorities){ 	  		
+            		List<Authority> parentAuthorities=new ArrayList<Authority>();
+            		Authority tempAuthority=authority;
+            		while(tempAuthority.getParent()!=null){
+            			parentAuthorities.add(tempAuthority.getParent());
+            			tempAuthority=tempAuthority.getParent();
+            		}
+            		if(parentAuthorities.size()>=2)
+            			permissionMenus.add(new PermissionMenu(parentAuthorities.get(parentAuthorities.size()-1).getPk(),parentAuthorities.get(parentAuthorities.size()-1).getStrName(),parentAuthorities.get(parentAuthorities.size()-2).getPk(),parentAuthorities.get(parentAuthorities.size()-2).getStrName(),authority.getStrName(),authority.getMatchUrl()));
+            		else if(parentAuthorities.size()==1)
+            			permissionMenus.add(new PermissionMenu(parentAuthorities.get(0).getPk(),parentAuthorities.get(0).getStrName(),authority.getPk(),authority.getStrName(),authority.getStrName(),authority.getMatchUrl()));
+            		else
+            			permissionMenus.add(new PermissionMenu(authority.getPk(),authority.getStrName(),null,null,authority.getStrName(),authority.getMatchUrl()));
+            	}
+            	accountRole.setAuthorityMenus(authorityMenus);
+            	accountRole.setPermissionMenus(permissionMenus);
+            	accountAuth.setAccountRole(accountRole);
+            	AuthHelper.setSessionAccountAuth(request, accountAuth);
 			}
-//        	else if(account.getEnable()==false)
-//        		result.addError(new FieldError("contentModel","username","此用户被禁用，不能登录。"));
-//        	else
-//        		result.addError(new FieldError("contentModel","username","此用户当前未被授权，不能登录。"));
-//        	AccountAuth accountAuth=new AccountAuth(account.getId(), account.getName(), account.getUsername());
-//        	AccountRole accountRole=new AccountRole(account.getRole().getId(), account.getRole().getName());
-//        	List<AuthorityMenu> authorityMenus=new ArrayList<AuthorityMenu>();
-//        	List<Authority> roleAuthorities=account.getRole().getAuthorities();
-//        	
-//        	for(Authority authority :roleAuthorities){
-//        		if(authority.getParent()==null){
-//        			AuthorityMenu authorityMenu=new AuthorityMenu(authority.getId(), authority.getName(), authority.getItemIcon(), authority.getUrl());
-//        			
-//        			List<AuthorityMenu> childrenAuthorityMenus=new ArrayList<AuthorityMenu>();
-//        			for(Authority subAuthority :roleAuthorities){   				
-//        				if(subAuthority.getParent()!=null && subAuthority.getParent().getId().equals(authority.getId()))
-//        					childrenAuthorityMenus.add(new AuthorityMenu(subAuthority.getId(), subAuthority.getName(), subAuthority.getItemIcon(), subAuthority.getUrl()));
-//        			}
-//        			authorityMenu.setChildrens(childrenAuthorityMenus);
-//        			authorityMenus.add(authorityMenu);
-//        		}
-//        	}
-//        	
-//    		List<PermissionMenu> permissionMenus=new ArrayList<PermissionMenu>(); 	
-//        	for(Authority authority : roleAuthorities){ 	  		
-//        		List<Authority> parentAuthorities=new ArrayList<Authority>();
-//        		Authority tempAuthority=authority;
-//        		while(tempAuthority.getParent()!=null){
-//        			parentAuthorities.add(tempAuthority.getParent());
-//        			tempAuthority=tempAuthority.getParent();
-//        		}
-//        		if(parentAuthorities.size()>=2)
-//        			permissionMenus.add(new PermissionMenu(parentAuthorities.get(parentAuthorities.size()-1).getId(),parentAuthorities.get(parentAuthorities.size()-1).getName(),parentAuthorities.get(parentAuthorities.size()-2).getId(),parentAuthorities.get(parentAuthorities.size()-2).getName(),authority.getName(),authority.getMatchUrl()));
-//        		else if(parentAuthorities.size()==1)
-//        			permissionMenus.add(new PermissionMenu(parentAuthorities.get(0).getId(),parentAuthorities.get(0).getName(),authority.getId(),authority.getName(),authority.getName(),authority.getMatchUrl()));
-//        		else
-//        			permissionMenus.add(new PermissionMenu(authority.getId(),authority.getName(),null,null,authority.getName(),authority.getMatchUrl()));
-//        	}
-//        	accountRole.setAuthorityMenus(authorityMenus);
-//        	accountRole.setPermissionMenus(permissionMenus);
-//        	accountAuth.setAccountRole(accountRole);
-//        	AuthHelper.setSessionAccountAuth(request, accountAuth);
+        	
         }
         
-//        String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
-//        if(returnUrl==null)
-//        	returnUrl="/home/index";
-//    	return "redirect:"+returnUrl; 	
-    	return "redirect:/home/index"; 	
+        String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
+        if(returnUrl==null)
+        	returnUrl="/home/index";
+    	return "redirect:"+returnUrl; 	
 	}
+
+	
+	@AuthPassport
+	@RequestMapping(value="/list", method = {RequestMethod.GET})
+    public String list(HttpServletRequest request, Model model, User searchModel){ 	
+		IUserService userService = ProjectContext.getBean(IUserService.class);
+    	model.addAttribute("requestUrl", request.getServletPath());
+		model.addAttribute("requestQuery", request.getQueryString());
+
+        model.addAttribute("searchModel", searchModel);
+        int pageNo = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
+        int pageSize = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE);      
+        model.addAttribute("contentModel", userService.listPage( pageNo, pageSize ,searchModel.getStrName()));
+
+        return "account/list";
+    }
 }

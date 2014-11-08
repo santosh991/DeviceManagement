@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" 
-	import="com.infrastructure.project.common.utilities.IPageList" 
-    import="com.infrastructure.project.common.utilities.PageListUtil" 
+	import="com.smart.school.devicemanagement.common.utilities.IPageList" 
+    import="com.smart.school.devicemanagement.common.utilities.PageListUtil" 
     import="org.apache.taglibs.standard.tag.common.core.UrlSupport"%>
 
 <%

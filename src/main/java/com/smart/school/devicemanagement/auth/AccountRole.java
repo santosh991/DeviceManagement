@@ -3,41 +3,53 @@ package com.smart.school.devicemanagement.auth;
 import java.util.List;
 
 public class AccountRole {
-	
-	private Integer id;
-	private String name;
+
+	private String pk;
+	private String strName;
 	private List<AuthorityMenu> authorityMenus;
 	private List<PermissionMenu> permissionMenus;
-	
-	public AccountRole(Integer id, String name){
-		this.id=id;
-		this.name=name;
+
+	public AccountRole() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	
-	public void setId(Integer id){
-		this.id=id;
+
+	public AccountRole(String pk, String strName) {
+		super();
+		this.pk = pk;
+		this.strName = strName;
 	}
-	public void setName(String name){
-		this.name=name;
+
+	public String getPk() {
+		return pk;
 	}
-	public void setPermissionMenus(List<PermissionMenu> permissionMenus){
-		this.permissionMenus=permissionMenus;
+
+	public void setPk(String pk) {
+		this.pk = pk;
 	}
-	public void setAuthorityMenus(List<AuthorityMenu> authorityMenus){
-		this.authorityMenus=authorityMenus;
+
+	public String getStrName() {
+		return strName;
 	}
-	
-	public Integer getId(){
-		return this.id;
+
+	public void setStrName(String strName) {
+		this.strName = strName;
 	}
-	public String getName(){
-		return this.name;
+
+	public void setPermissionMenus(List<PermissionMenu> permissionMenus) {
+		this.permissionMenus = permissionMenus;
 	}
-	public List<PermissionMenu> getPermissionMenus(){
+
+	public void setAuthorityMenus(List<AuthorityMenu> authorityMenus) {
+		this.authorityMenus = authorityMenus;
+	}
+
+	public List<PermissionMenu> getPermissionMenus() {
 		return this.permissionMenus;
 	}
-	public List<AuthorityMenu> getAuthorityMenus(){
+
+	public List<AuthorityMenu> getAuthorityMenus() {
 		return this.authorityMenus;
 	}
-	
+
 }

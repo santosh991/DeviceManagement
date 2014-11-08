@@ -42,7 +42,7 @@ public class SchoolInfo {
 		this.strName = strName;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="fk_user")
 	public User getUser() {
 		return user;

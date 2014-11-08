@@ -6,13 +6,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Role")
-public class Role {
+@Table(name = "RoleInfo")
+public class RoleInfo {
 
 	private String pk;
 	private String strName;
 	
-	public Role() {
+	public RoleInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

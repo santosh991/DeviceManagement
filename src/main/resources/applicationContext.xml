@@ -32,7 +32,7 @@
 	
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
-		<property name="url" value="jdbc:mysql://115.28.171.84:3306/school_schema" />  
+		<property name="url" value="jdbc:mysql://115.28.171.84:3306/school_schema?zeroDateTimeBehavior=convertToNull" />  
 		<property name="username" value="root" /> 
 		<property name="password" value="root" />
 		<!-- <property name="url" value="jdbc:mysql://100.0.12.109:3306/school_schema2" />  

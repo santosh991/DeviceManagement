@@ -3,58 +3,67 @@ package com.smart.school.devicemanagement.auth;
 import java.util.List;
 
 public class AuthorityMenu {
-	
-	private Integer id;
-	private String name;
+
+	private String pk;
+	private String strName;
 	private String itemIcon;
 	private String url;
 	private List<AuthorityMenu> childrens;
-	
-	public AuthorityMenu(Integer id, String name, String itemIcon, String url){
-		this.id=id;
-		this.name=name;
-		this.itemIcon=itemIcon;
-		this.url=url;
+
+	public AuthorityMenu(String pk, String strName, String itemIcon, String url) {
+		this.pk = pk;
+		this.strName = strName;
+		this.itemIcon = itemIcon;
+		this.url = url;
 	}
-	
-	public AuthorityMenu(Integer id, String name,  String itemIcon, String url, List<AuthorityMenu> childrens){
-		this.id=id;
-		this.name=name;
-		this.itemIcon=itemIcon;
-		this.url=url;
-		this.childrens=childrens;
+
+	public AuthorityMenu(String pk, String strName, String itemIcon,
+			String url, List<AuthorityMenu> childrens) {
+		this.pk = pk;
+		this.strName = strName;
+		this.itemIcon = itemIcon;
+		this.url = url;
+		this.childrens = childrens;
 	}
-	
-	public void setId(Integer id){
-		this.id=id;
+
+	public String getPk() {
+		return pk;
 	}
-	public void setName(String name){
-		this.name=name;
+
+	public void setPk(String pk) {
+		this.pk = pk;
 	}
-	public void setItemIcon(String itemIcon){
-		this.itemIcon=itemIcon;
+
+	public String getStrName() {
+		return strName;
 	}
-	public void setUrl(String url){
-		this.url=url;
+
+	public void setStrName(String strName) {
+		this.strName = strName;
 	}
-	public void setChildrens(List<AuthorityMenu> childrens){
-		this.childrens=childrens;
+
+	public void setItemIcon(String itemIcon) {
+		this.itemIcon = itemIcon;
 	}
-	
-	public Integer getId(){
-		return this.id;
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
-	public String getName(){
-		return this.name;
+
+	public void setChildrens(List<AuthorityMenu> childrens) {
+		this.childrens = childrens;
 	}
-	public String getItemIcon(){
+
+	public String getItemIcon() {
 		return this.itemIcon;
 	}
-	public String getUrl(){
+
+	public String getUrl() {
 		return this.url;
 	}
-	public List<AuthorityMenu> getChildrens(){
+
+	public List<AuthorityMenu> getChildrens() {
 		return this.childrens;
 	}
-	
+
 }

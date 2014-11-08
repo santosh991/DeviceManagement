@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
-	import="com.infrastructure.project.common.extension.UrlHelper"%>
+	import="com.smart.school.devicemanagement.common.extension.UrlHelper"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@ include file="../shared/taglib.jsp"%>
@@ -88,20 +88,20 @@
 					  <form:form modelAttribute="searchModel" class="form-horizontal" method="GET">
 						 <div class="form-body">
 							<div class="row">
-							   <div class="col-md-6">
+							   <!--<div class="col-md-6">
 								  <div class="form-group">
 									 <label class="control-label col-md-3">姓名</label>
 									 <div class="col-md-9">
-										<form:input path="name" class="form-control placeholder-no-fix" autocomplete="off" placeholder="姓名"/>
+										<form:input path="strName" class="form-control placeholder-no-fix" autocomplete="off" placeholder="姓名"/>
 									 </div>
 								  </div>
-							   </div>
+							   </div>-->
 							   <!--/span-->
 							   <div class="col-md-6">
 								  <div class="form-group">
 									 <label class="control-label col-md-3">用户名</label>
 									 <div class="col-md-9">
-										<form:input path="username" class="form-control placeholder-no-fix" autocomplete="off" placeholder="用户名"/>
+										<form:input path="strName" class="form-control placeholder-no-fix" autocomplete="off" placeholder="用户名"/>
 									 </div>
 								  </div>
 							   </div>
@@ -138,7 +138,7 @@
 		                              <th>姓名</th>
 		                              <th >邮箱</th>
 		                              <th >是否可用</th>
-		                              <th >用户名</th>
+		                              <th >联系电话</th>
 		                              <th >注册时间</th>
 		                           </tr>
 		                        </thead>
@@ -146,12 +146,12 @@
 		                        	<c:forEach items="${contentModel.items}" var="item">
 							        <tr class="odd gradeX">
 							        	<td class="check_cell">
-									        <input type="checkbox" class="checkboxes" name="Id" value="${ item.id }" />
+									        <input type="checkbox" class="checkboxes" name="Id" value="${ item.pk }" />
 									    </td>
-							            <td>${ item.name }</td>
+							            <td>${ item.strName }</td>
 							            <td>${ item.email }</td>
-							            <td>${ item.enable }</td>
-							            <td>${ item.username }</td>
+							            <td>${ item.enumState }</td>
+							            <td>${ item.phone1 }</td>
 							            <td>${ item.registerTime.getTime().toLocaleString() }</td>
 							        </tr>
 							        </c:forEach>

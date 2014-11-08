@@ -1,42 +1,45 @@
 package com.smart.school.devicemanagement.auth;
 
 public class AccountAuth {
-	
-	private Integer id;
-	private String name;
-	private String username;
+
+	private String pk;
+
+	private String strName;
 	private AccountRole accountRole;
-	
-	public AccountAuth(Integer id, String name, String username){
-		this.id=id;
-		this.name=name;
-		this.username=username;
+
+	public AccountAuth() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	
-	public void setId(Integer id){
-		this.id=id;
+
+	public AccountAuth(String pk, String strName) {
+		super();
+		this.pk = pk;
+		this.strName = strName;
 	}
-	public void setName(String name){
-		this.name=name;
+
+	public String getPk() {
+		return pk;
 	}
-	public void setUsername(String username){
-		this.username=username;
+
+	public void setPk(String pk) {
+		this.pk = pk;
 	}
-	public void setAccountRole(AccountRole accountRole){
-		this.accountRole=accountRole;
+
+	public String getStrName() {
+		return strName;
 	}
-	
-	public Integer getId(){
-		return this.id;
+
+	public void setStrName(String strName) {
+		this.strName = strName;
 	}
-	public String getName(){
-		return this.name;
+
+	public void setAccountRole(AccountRole accountRole) {
+		this.accountRole = accountRole;
 	}
-	public String getUsername(){
-		return this.username;
-	}
-	public AccountRole getAccountRole(){
+
+	public AccountRole getAccountRole() {
 		return this.accountRole;
 	}
-	
+
 }

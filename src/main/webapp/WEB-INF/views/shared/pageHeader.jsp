@@ -26,8 +26,8 @@
         <li class="dropdown user">
            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
            <img alt="" src="<c:url value='/images/avatar3_small.jpg'/>"/>&nbsp;
-           <span class="username">${sessionScope.accountAuth.name}</span>&nbsp;-&nbsp;
-           <span class="username">${sessionScope.accountAuth.accountRole.name}</span>
+           <span class="username">${sessionScope.accountAuth.strName}</span>&nbsp;-&nbsp;
+           <span class="username">${sessionScope.accountAuth.accountRole.strName}</span>
            <i class="icon-angle-down"></i>
            </a>
            <ul class="dropdown-menu">

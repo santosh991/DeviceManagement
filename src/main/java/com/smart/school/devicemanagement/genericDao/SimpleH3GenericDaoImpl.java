@@ -4,18 +4,23 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.metadata.ClassMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
-
 import com.smart.school.devicemanagement.common.ReflectionUtils;
+import com.smart.school.devicemanagement.common.utilities.PageList;
+import com.smart.school.devicemanagement.common.utilities.PageListUtil;
+import com.smart.school.devicemanagement.models.User;
 
 /**
  * 泛型Dao模板
@@ -99,7 +104,7 @@ public abstract class SimpleH3GenericDaoImpl<T, PK extends Serializable> impleme
 	public List<T> getList(String propertyName, final Object value){
 		Assert.hasText(propertyName, "propertyName must not be empty");
 		Assert.notNull(value, "value is required");
-		String hql = "from " + entityClass.getName() + "where " + propertyName + "= ?";
+		String hql = "from " + entityClass.getName() + " where " + propertyName + "= ?";
 
 		return createQuery(hql , value).list();
 	}
@@ -177,6 +182,19 @@ public abstract class SimpleH3GenericDaoImpl<T, PK extends Serializable> impleme
 		query.setMaxResults(pageSize);
 		query.setFirstResult(pageSize*(pageIndex - 1));
 		return query.list();
+	}
+	
+	public PageList<T> listPage(final int pageNo,final int pageSize,final SimpleExpression ... expressdion){
+		Criteria countCriteria = createCriteria(expressdion);
+		Criteria listCriteria = createCriteria(expressdion);
+		
+        listCriteria.setFirstResult((pageNo-1)*pageSize);  
+        listCriteria.setMaxResults(pageSize);
+        List<User> items = listCriteria.list();
+        countCriteria.setProjection(Projections.rowCount());
+        Integer count=Integer.parseInt(countCriteria.uniqueResult().toString());
+        
+        return (PageList<T>) PageListUtil.getPageList(count, pageNo, items, pageSize);
 	}
 
 }

@@ -14,7 +14,7 @@
    		<c:choose>  
         <c:when test="${status.first}">
             <c:choose>  
-		        <c:when test="${item.id eq requestScope.permissionMenu.rootId}">  
+		        <c:when test="${item.pk eq requestScope.permissionMenu.rootId}">  
 		            <li class="start active">
 		        </c:when>  
 		        <c:otherwise>  
@@ -24,7 +24,7 @@
         </c:when>  
         <c:otherwise>  
             <c:choose>  
-		        <c:when test="${item.id eq requestScope.permissionMenu.rootId}">  
+		        <c:when test="${item.pk eq requestScope.permissionMenu.rootId}">  
 		            <li class="active">
 		        </c:when>  
 		        <c:otherwise>  
@@ -35,7 +35,7 @@
     	</c:choose>
    		<a href="javascript:;">
 			<i class='${ empty item.itemIcon?"icon-list": item.itemIcon}'></i>
-			<span class="title">${ item.name }</span>
+			<span class="title">${ item.strName }</span>
 			<span class="arrow "></span>
 		</a>
 		<c:forEach items="${item.childrens}" var="subItem" varStatus="subStatus">
@@ -44,14 +44,14 @@
 			</c:if>
 			
 			<c:choose>  
-		        <c:when test="${subItem.id eq requestScope.permissionMenu.subId}">  
+		        <c:when test="${subItem.pk eq requestScope.permissionMenu.subId}">  
 		            <li class="active">
 		        </c:when>  
 		        <c:otherwise>  
 		            <li>
 		        </c:otherwise>  
 		    </c:choose>
-	            	<a href="<c:url value='${ subItem.url }'/>">${ subItem.name }</a>
+	            	<a href="<c:url value='${ subItem.url }'/>">${ subItem.strName }</a>
          		</li>
 			<c:if test="${subStatus.last}">
 			</ul>

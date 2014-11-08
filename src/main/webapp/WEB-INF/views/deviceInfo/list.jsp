@@ -78,6 +78,49 @@
          <!-- BEGIN PAGE CONTENT-->
          <div class="row">
             <div class="col-md-12">
+            
+				<div class="portlet box light-grey">
+				   <div class="portlet-title">
+					  <div class="caption"><i class="icon-search"></i>数据检索</div>
+				   </div>
+				   <div class="portlet-body form">
+					  <!-- BEGIN FORM-->
+					  <form:form modelAttribute="searchModel" class="form-horizontal" method="GET">
+						 <div class="form-body">
+							<div class="row">
+							   <!--<div class="col-md-6">
+								  <div class="form-group">
+									 <label class="control-label col-md-3">姓名</label>
+									 <div class="col-md-9">
+										<form:input path="strName" class="form-control placeholder-no-fix" autocomplete="off" placeholder="姓名"/>
+									 </div>
+								  </div>
+							   </div>-->
+							   <!--/span-->
+							   <div class="col-md-6">
+								  <div class="form-group">
+									 <label class="control-label col-md-3">设备名称</label>
+									 <div class="col-md-9">
+										<form:input path="strName" class="form-control placeholder-no-fix" autocomplete="off" placeholder="设备名称关键字"/>
+									 </div>
+								  </div>
+							   </div>
+							   <!--/span-->
+							</div>
+						 </div>
+						 <div class="form-actions">
+							<div class="row">
+							   <div class="col-md-12">
+								  <div class="col-md-offset-5">
+									 <button type="submit" class="btn btn-success">搜索</button>                            
+								  </div>
+							   </div>
+							</div>
+						 </div>
+					  </form:form>
+					  <!-- END FORM-->                
+				   </div>
+				</div>
                
                <!-- BEGIN EXAMPLE TABLE PORTLET-->
                <div class="portlet box light-grey">
@@ -92,18 +135,22 @@
 		                        <thead>
 		                           <tr>
 		                              <th class="table-checkbox"><input type="checkbox" class="group-checkable"/></th>
-		                              <th>名称</th>
-		                              <th >是否可用</th>
+		                              <th>设备名称</th>
+		                              <th >云ID</th>
+		                              <th >所属园区</th>
+		                              <th >位置</th>
 		                           </tr>
 		                        </thead>
 		                        <tbody>
-		                        	<c:forEach items="${contentModel.items}" var="item" varStatus="status">
+		                        	<c:forEach items="${contentModel.items}" var="item">
 							        <tr class="odd gradeX">
 							        	<td class="check_cell">
-									        <input type="checkbox" class="checkboxes" name="Id" value="${ item.id }" />
+									        <input type="checkbox" class="checkboxes" name="Id" value="${ item.pk }" />
 									    </td>
-							            <td>${ item.name }</td>
-							            <td>${ item.enable }</td>
+							            <td>${ item.strName }</td>
+							            <td>${ item.mac }</td>
+							            <td>${ item.schoolInfo.strName }</td>
+							            <td>${ item.address }</td>
 							        </tr>
 							        </c:forEach>
 		                        </tbody>
@@ -111,7 +158,7 @@
 	                     </div>
 	                     <c:import url = "../shared/paging.jsp">
 	        				<c:param name="pageModelName" value="contentModel"/>
-	        				<c:param name="urlAddress" value="/role/list"/>
+	        				<c:param name="urlAddress" value="/deviceInfo/list"/>
 	       				 </c:import>
        				 </div>
                   </div>
@@ -135,21 +182,14 @@
          
          $(".table-toolbar").toolbarLite({
              items: [
-                 { link: true, display: "新建", css: "icon-plus", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/role/add", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>" },
-                 { splitter: true }, 
-                 { link: true, display: "编辑", css: "icon-edit", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/role/edit/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
-                   	selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", singleSelect: "该操作只支持单选！"},
-                 { splitter: true }, 
-                 { link: true, display: "启用", css: "icon-ok", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/role/enable/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>",
+                 { link: true, display: "启用", css: "icon-ok", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/deviceInfo/enable/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>",
                 	 selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", singleSelect: "该操作只支持单选！"},
                  { splitter: true }, 
-                 { link: true, display: "禁用", css: "icon-remove", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/role/disable/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
+                 { link: true, display: "禁用", css: "icon-remove", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/deviceInfo/disable/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
                  	 selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", singleSelect: "该操作只支持单选！"},
                  { splitter: true }, 
-                 { link: true, display: "绑定权限", css: "icon-tasks", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/role/bind/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
-                   	selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", singleSelect: "该操作只支持单选！"},
-                 { link: true, display: "删除", css: "icon-trash", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/role/delete/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
-                   	selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", confirm: "确认删除所选数据吗？"}
+                 { link: true, display: "删除", css: "icon-trash", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/deviceInfo/delete/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
+                   	 selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", confirm: "确认删除所选数据吗？"}
              ]
          });
       });

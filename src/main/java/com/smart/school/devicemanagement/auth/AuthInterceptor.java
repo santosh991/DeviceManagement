@@ -31,10 +31,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             			
             			Pattern pattern = Pattern.compile(permissionMenu.getPermission(),Pattern.CASE_INSENSITIVE);
             			Matcher matcher = pattern.matcher(requestServletPath);
-            			if(matcher.find()){
+//            			if(matcher.find()){
             				hasPermission=true;
             				AuthHelper.setRequestPermissionMenu(request, permissionMenu);
-            			}
+//            			}
             		}
             		if(hasPermission)
             			return true;
