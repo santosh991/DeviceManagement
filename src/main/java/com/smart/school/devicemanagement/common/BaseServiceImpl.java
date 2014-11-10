@@ -29,4 +29,9 @@ public abstract class BaseServiceImpl <T, PK extends Serializable> implements IB
 		}
 	}
 
+	@Override
+	public T getByPk(PK pk){
+		IRecordCrud crud = ProjectContext.getBean(SimpleH3GenericDaoImpl.class);
+		return (T)crud.get(pk);
+	}
 }

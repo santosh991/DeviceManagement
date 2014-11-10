@@ -2,7 +2,7 @@ package com.smart.school.devicemanagement.web.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserLoginModel {
+public class UserLoginModel implements java.io.Serializable{
 
 	@NotEmpty(message="用户名不能为空")
 	private String strName;

@@ -33,8 +33,8 @@ public class SchoolInfoServiceImpl extends BaseServiceImpl<SchoolInfo,String> im
 
 	@Override
 	public List<SchoolInfo> getByUser(User user) {
-		// TODO Auto-generated method stub
-		return new ArrayList<SchoolInfo>();
+		ISchoolInfoDao schoolInfoDao = ProjectContext.getBean(ISchoolInfoDao.class);	
+		return schoolInfoDao.getList("user", user);
 	}
 
 	@Override

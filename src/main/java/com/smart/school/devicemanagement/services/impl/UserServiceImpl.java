@@ -10,6 +10,8 @@ import org.hibernate.criterion.SimpleExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import com.smart.school.devicemanagement.common.BaseServiceImpl;
 import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.common.utilities.PageListUtil;
@@ -19,12 +21,13 @@ import com.smart.school.devicemanagement.dao.IUserDao;
 import com.smart.school.devicemanagement.dao.IUserRoleDao;
 import com.smart.school.devicemanagement.models.Authority;
 import com.smart.school.devicemanagement.models.RoleInfo;
+import com.smart.school.devicemanagement.models.SchoolInfo;
 import com.smart.school.devicemanagement.models.User;
 import com.smart.school.devicemanagement.models.UserRole;
 import com.smart.school.devicemanagement.services.IUserService;
 
 @Service("UserServiceImpl")
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl extends BaseServiceImpl<User,String> implements IUserService {
 
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 	
@@ -65,17 +68,4 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 
-
-	@Override
-	public List<User> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void deleteList(List<User> models) {
-		// TODO Auto-generated method stub
-		
-	}
 }

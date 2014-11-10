@@ -6,7 +6,6 @@ import com.smart.school.devicemanagement.common.IBaseService;
 import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.models.Authority;
 import com.smart.school.devicemanagement.models.RoleInfo;
-import com.smart.school.devicemanagement.models.SchoolInfo;
 import com.smart.school.devicemanagement.models.User;
 
 public interface IUserService extends IBaseService<User,String>{
