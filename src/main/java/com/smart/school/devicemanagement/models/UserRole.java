@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "UserRole")
-public class UserRole {
+public class UserRole implements java.io.Serializable{
 	
 	private String pk;
 	private RoleInfo roleInfo;

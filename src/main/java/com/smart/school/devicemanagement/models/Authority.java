@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Authority")
-public class Authority {
+public class Authority implements java.io.Serializable{
 
 	private String pk;
 	private String strName;

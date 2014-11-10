@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "NewsInfo")
-public class NewsInfo {
+public class NewsInfo implements java.io.Serializable{
 
 	private String pk;
 	private SchoolInfo schoolInfo;

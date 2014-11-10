@@ -44,7 +44,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             	else
             	{
             		StringBuilder urlBuilder=new StringBuilder(request.getContextPath());
-            		urlBuilder.append("/list/login");
+            		urlBuilder.append("/account/login");
             		if(request.getServletPath()!=null && !request.getServletPath().isEmpty()){
             			urlBuilder.append("?returnUrl=");
             			

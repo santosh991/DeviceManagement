@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ParamInfo")
-public class ParamInfo {
+public class ParamInfo implements java.io.Serializable{
 	private String pk;
 	private String strCode;
 	private String strName;

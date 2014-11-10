@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CustomInfo")
-public class CustomInfo {
+public class CustomInfo implements java.io.Serializable{
 
 	private String pk;
 	private int gender;

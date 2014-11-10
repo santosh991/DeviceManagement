@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SchoolInfo")
-public class SchoolInfo {
+public class SchoolInfo implements java.io.Serializable{
 
 	private String pk;
 	private String strName;

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "User")
-public class User {
+public class User implements java.io.Serializable{
 
 	private String pk;
 	private String strName;
@@ -23,6 +23,15 @@ public class User {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	public User(String pk) {
+		super();
+		this.pk = pk;
+	}
+
+
 
 	@Id
 	@Column(name = "pk",  nullable = false, length = 36)
