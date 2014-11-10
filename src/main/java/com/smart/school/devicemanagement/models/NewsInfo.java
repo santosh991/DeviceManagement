@@ -1,6 +1,6 @@
 package com.smart.school.devicemanagement.models;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ public class NewsInfo implements java.io.Serializable{
 	private User user;
 	private String title;
 	private String content;
-	private Date publicTime;
+	private Calendar publicTime;
 	
 	public NewsInfo() {
 		super();
@@ -64,10 +64,10 @@ public class NewsInfo implements java.io.Serializable{
 		this.content = content;
 	}
 	@Column(name = "publicTime",  nullable = false)
-	public Date getPublicTime() {
+	public Calendar getPublicTime() {
 		return publicTime;
 	}
-	public void setPublicTime(Date publicTime) {
+	public void setPublicTime(Calendar publicTime) {
 		this.publicTime = publicTime;
 	}
 	

@@ -16,11 +16,11 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.metadata.ClassMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 import com.smart.school.devicemanagement.common.ReflectionUtils;
 import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.common.utilities.PageListUtil;
-import com.smart.school.devicemanagement.models.User;
 
 /**
  * 泛型Dao模板
@@ -29,7 +29,8 @@ import com.smart.school.devicemanagement.models.User;
  * @param <T>
  * @param <PK>
  */
-public abstract class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements IRecordCrud<T, PK>{
+@Repository("SimpleH3GenericDaoImpl")
+public class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements IRecordCrud<T, PK>{
 
 	private Class<T> entityClass;
 	
@@ -190,7 +191,7 @@ public abstract class SimpleH3GenericDaoImpl<T, PK extends Serializable> impleme
 		
         listCriteria.setFirstResult((pageNo-1)*pageSize);  
         listCriteria.setMaxResults(pageSize);
-        List<User> items = listCriteria.list();
+        List<T> items = listCriteria.list();
         countCriteria.setProjection(Projections.rowCount());
         Integer count=Integer.parseInt(countCriteria.uniqueResult().toString());
         

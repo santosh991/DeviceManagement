@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.stereotype.Service;
 
 import com.smart.school.devicemanagement.common.BaseServiceImpl;
@@ -38,15 +39,10 @@ public class SchoolInfoServiceImpl extends BaseServiceImpl<SchoolInfo,String> im
 	}
 
 	@Override
-	public PageList<SchoolInfo> listPage(int pageNo, int pageSize,
-			String strName) {
+	public PageList<SchoolInfo> listPage(int pageNo, int pageSize,final SimpleExpression ... expressdion) {
 		ISchoolInfoDao schoolInfoDao = ProjectContext.getBean(ISchoolInfoDao.class);	
 		
-		if (StringUtils.isBlank(strName)) {
-			return schoolInfoDao.listPage(pageNo, pageSize);
-		}else {
-			return schoolInfoDao.listPage(pageNo, pageSize, Restrictions.like("strName", strName));
-		}
+			return schoolInfoDao.listPage(pageNo, pageSize, expressdion);
 	}
 
 	

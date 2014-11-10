@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -34,7 +36,11 @@ public class SchoolInfoController extends BaseController{
         model.addAttribute("searchModel", searchModel);
         int pageNo = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
         int pageSize = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE);      
-        model.addAttribute("contentModel", schoolService.listPage( pageNo, pageSize ,searchModel.getStrName()));
+        if (StringUtils.isBlank(searchModel.getStrName())) {
+        	model.addAttribute("contentModel", schoolService.listPage( pageNo, pageSize));
+		}else {
+			model.addAttribute("contentModel", schoolService.listPage( pageNo, pageSize ,Restrictions.like("strName", searchModel.getStrName())));
+		}
 
         return "schoolInfo/list";
     }

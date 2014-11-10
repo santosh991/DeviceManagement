@@ -58,14 +58,10 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements IUs
 		return userDao.get(user.getPk());
 	}
 	
-	public PageList<User> listPage(int pageNo, int pageSize,String strName){
+	public PageList<User> listPage(int pageNo, int pageSize,final SimpleExpression ... expressdion){
 		IUserDao userDao = ProjectContext.getBean(IUserDao.class);	
 		
-		if (StringUtils.isBlank(strName)) {
-			return userDao.listPage(pageNo, pageSize);
-		}else {
-			return userDao.listPage(pageNo, pageSize, Restrictions.like("strName", strName));
-		}
+		return userDao.listPage(pageNo, pageSize, expressdion);
 	}
 
 }

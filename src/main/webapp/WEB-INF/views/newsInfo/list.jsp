@@ -92,23 +92,26 @@
 								  <div class="form-group">
 									 <label class="control-label col-md-3">姓名</label>
 									 <div class="col-md-9">
-										<form:input path="strName" class="form-control placeholder-no-fix" autocomplete="off" placeholder="姓名"/>
+										<form:input path="title" class="form-control placeholder-no-fix" autocomplete="off" placeholder="姓名"/>
 									 </div>
 								  </div>
 							   </div>-->
 							   <!--/span-->
-							   <div class="col-md-6">
+							   <div class="col-md-9">
 								  <div class="form-group">
 									 <label class="control-label col-md-3">标题</label>
-									 <div class="col-md-9">
-										<form:input path="strName" class="form-control placeholder-no-fix" autocomplete="off" placeholder="标题关键字"/>
+									 <div class="col-md-6">
+										<form:input path="title" class="form-control placeholder-no-fix" autocomplete="off" placeholder="标题关键字"/>
+									 </div>
+									 <div class="col-md-3">
+										<button type="submit" class="btn btn-success">搜索</button>  
 									 </div>
 								  </div>
 							   </div>
 							   <!--/span-->
 							</div>
 						 </div>
-						 <div class="form-actions">
+						 <!--<div class="form-actions">
 							<div class="row">
 							   <div class="col-md-12">
 								  <div class="col-md-offset-5">
@@ -116,7 +119,7 @@
 								  </div>
 							   </div>
 							</div>
-						 </div>
+						 </div>-->
 					  </form:form>
 					  <!-- END FORM-->                
 				   </div>

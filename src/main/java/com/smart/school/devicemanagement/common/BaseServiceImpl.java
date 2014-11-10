@@ -8,30 +8,32 @@ import com.smart.school.devicemanagement.genericDao.SimpleH3GenericDaoImpl;
 
 public abstract class BaseServiceImpl <T, PK extends Serializable> implements IBaseService<T, PK>{
 
+	private Class<T> entityClass;
+	
+	public IRecordCrud getDao(){
+		this.entityClass = ReflectionUtils.getSuperClassGenricType(getClass());
+		return (IRecordCrud)ProjectContext.getBean(entityClass.getSimpleName()+"Dao");
+	}
 	@Override
 	public List<T> getAll() {
-		IRecordCrud crud = ProjectContext.getBean(SimpleH3GenericDaoImpl.class);
-		return crud.getAll();
+		return getDao().getAll();
 	}
 
 	@Override
 	public T saveOrUpdate(T model) {
-		IRecordCrud crud = ProjectContext.getBean(SimpleH3GenericDaoImpl.class);
-		crud.saveOrUpdate(model);
+		getDao().saveOrUpdate(model);
 		return model;
 	}
 
 	@Override
 	public void deleteList(List<T> models) {
-		IRecordCrud crud = ProjectContext.getBean(SimpleH3GenericDaoImpl.class);
 		for (T t : models) {
-			crud.delete(t);
+			getDao().delete(t);
 		}
 	}
 
 	@Override
 	public T getByPk(PK pk){
-		IRecordCrud crud = ProjectContext.getBean(SimpleH3GenericDaoImpl.class);
-		return (T)crud.get(pk);
+		return (T)getDao().get(pk);
 	}
 }

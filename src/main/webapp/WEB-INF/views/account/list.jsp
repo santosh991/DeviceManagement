@@ -97,7 +97,7 @@
 								  </div>
 							   </div>-->
 							   <!--/span-->
-							   <div class="col-md-6">
+							   <div class="col-md-9">
 								  <div class="form-group">
 									 <label class="control-label col-md-3">用户名</label>
 									 <div class="col-md-6">

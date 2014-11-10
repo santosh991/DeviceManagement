@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.stereotype.Service;
 
 import com.smart.school.devicemanagement.common.BaseServiceImpl;
@@ -20,14 +21,10 @@ public class NewsInfoServiceImpl extends BaseServiceImpl<NewsInfo,String> implem
 
 	
 	@Override
-	public PageList<NewsInfo> listPage(int pageNo, int pageSize, String strName) {
+	public PageList<NewsInfo> listPage(int pageNo, int pageSize, final SimpleExpression ... expressdion) {
 		INewsInfoDao newsInfoDao = ProjectContext.getBean(INewsInfoDao.class);	
 		
-		if (StringUtils.isBlank(strName)) {
-			return newsInfoDao.listPage(pageNo, pageSize);
-		}else {
-			return newsInfoDao.listPage(pageNo, pageSize, Restrictions.like("strName", strName));
-		}
+		return newsInfoDao.listPage(pageNo, pageSize, expressdion);
 	}
 
 	
