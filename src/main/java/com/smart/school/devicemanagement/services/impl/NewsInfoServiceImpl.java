@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Service;
+
 import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.dao.INewsInfoDao;
 import com.smart.school.devicemanagement.models.NewsInfo;
 import com.smart.school.devicemanagement.services.INewsInfoService;
 
+@Service("NewsInfoServiceImpl")
 public class NewsInfoServiceImpl implements INewsInfoService{
 
 	@Override

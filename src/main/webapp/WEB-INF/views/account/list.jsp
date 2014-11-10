@@ -100,15 +100,18 @@
 							   <div class="col-md-6">
 								  <div class="form-group">
 									 <label class="control-label col-md-3">用户名</label>
-									 <div class="col-md-9">
+									 <div class="col-md-6">
 										<form:input path="strName" class="form-control placeholder-no-fix" autocomplete="off" placeholder="用户名"/>
+									 </div>
+									 <div class="col-md-3">
+										<button type="submit" class="btn btn-success">搜索</button>  
 									 </div>
 								  </div>
 							   </div>
 							   <!--/span-->
 							</div>
 						 </div>
-						 <div class="form-actions">
+						 <!--<div class="form-actions">
 							<div class="row">
 							   <div class="col-md-12">
 								  <div class="col-md-offset-5">
@@ -116,7 +119,7 @@
 								  </div>
 							   </div>
 							</div>
-						 </div>
+						 </div>-->
 					  </form:form>
 					  <!-- END FORM-->                
 				   </div>
