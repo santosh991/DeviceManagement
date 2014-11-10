@@ -139,6 +139,7 @@
 		                              <th >云ID</th>
 		                              <th >所属园区</th>
 		                              <th >位置</th>
+		                              <th >流媒体地址</th>
 		                           </tr>
 		                        </thead>
 		                        <tbody>
@@ -151,6 +152,7 @@
 							            <td>${ item.mac }</td>
 							            <td>${ item.schoolInfo.strName }</td>
 							            <td>${ item.address }</td>
+							            <td>${ item.streamUrl1 }</td>
 							        </tr>
 							        </c:forEach>
 		                        </tbody>

@@ -1,6 +1,6 @@
 package com.smart.school.devicemanagement.auth;
 
-public class AccountAuth {
+public class AccountAuth implements java.io.Serializable{
 
 	private String pk;
 

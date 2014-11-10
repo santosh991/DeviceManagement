@@ -18,6 +18,8 @@ public class DeviceInfo {
 	private SchoolInfo schoolInfo;
 	private String address;
 	private int publicLevel;
+	private String streamUrl1;
+	private String streamUrl2;
 	
 	public DeviceInfo() {
 		super();
@@ -78,6 +80,24 @@ public class DeviceInfo {
 
 	public void setPublicLevel(int publicLevel) {
 		this.publicLevel = publicLevel;
+	}
+
+	@Column(name = "streamUrl1", length = 256)
+	public String getStreamUrl1() {
+		return streamUrl1;
+	}
+
+	public void setStreamUrl1(String streamUrl1) {
+		this.streamUrl1 = streamUrl1;
+	}
+
+	@Column(name = "streamUrl2", length = 256)
+	public String getStreamUrl2() {
+		return streamUrl2;
+	}
+
+	public void setStreamUrl2(String streamUrl2) {
+		this.streamUrl2 = streamUrl2;
 	}
 	
 	
