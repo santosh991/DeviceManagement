@@ -52,12 +52,22 @@
     
     <logger name="com.smart.school">
         <level value="DEBUG"/>
+    </logger>
+    
+    <logger name="log4j.logger.druid.sql">
+        <level value="DEBUG"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+    
+    <logger name="log4j.logger.druid.sql.ResultSet">
+        <level value="ERROR"/>
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
 
     <root>
-        <level value="WARN"/>
+        <level value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>

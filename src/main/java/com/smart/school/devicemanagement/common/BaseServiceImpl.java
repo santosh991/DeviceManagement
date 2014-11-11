@@ -31,6 +31,16 @@ public abstract class BaseServiceImpl <T, PK extends Serializable> implements IB
 			getDao().delete(t);
 		}
 	}
+	
+	@Override
+	public void deleteByPk(PK pk){
+		getDao().delete(pk);
+	}
+	
+	@Override
+	public void deleteOne(T model){
+		getDao().delete(model);
+	}
 
 	@Override
 	public T getByPk(PK pk){

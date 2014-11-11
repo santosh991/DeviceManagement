@@ -5,8 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.smart.school.devicemanagement.auth.AccountAuth;
 import com.smart.school.devicemanagement.auth.AccountRole;
 import com.smart.school.devicemanagement.auth.AuthHelper;
@@ -27,7 +27,6 @@ import com.smart.school.devicemanagement.auth.AuthorityMenu;
 import com.smart.school.devicemanagement.auth.PermissionMenu;
 import com.smart.school.devicemanagement.common.BaseController;
 import com.smart.school.devicemanagement.common.ProjectContext;
-import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.common.utilities.PageListUtil;
 import com.smart.school.devicemanagement.models.Authority;
 import com.smart.school.devicemanagement.models.RoleInfo;
@@ -114,7 +113,7 @@ public class UserController extends BaseController{
 			}
         	
         }
-        
+		log.debug("登陆成功");
         String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
         if(returnUrl==null)
         	returnUrl="/home/index";
@@ -134,9 +133,9 @@ public class UserController extends BaseController{
         int pageSize = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE); 
         
         if (StringUtils.isBlank(searchModel.getStrName())) {
-        	model.addAttribute("contentModel", userService.listPage( pageNo, pageSize));
+        	model.addAttribute("contentModel", userService.listPage( pageNo, pageSize, Order.asc("strName")));
 		}else {
-			model.addAttribute("contentModel", userService.listPage( pageNo, pageSize ,Restrictions.like("strName", searchModel.getStrName())));
+			model.addAttribute("contentModel", userService.listPage( pageNo, pageSize , Order.asc("strName") ,Restrictions.like("strName", searchModel.getStrName(),MatchMode.ANYWHERE)));
 		}
         return "account/list";
     }

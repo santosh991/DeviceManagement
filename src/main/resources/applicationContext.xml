@@ -30,12 +30,20 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
 	
-    
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Log4jFilter">
+        <property name="statementExecutableSqlLogEnable" value="true" />
+  </bean>
+  
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
-		<property name="url" value="jdbc:mysql://115.28.171.84:3306/school_schema?zeroDateTimeBehavior=convertToNull" />  
+		<property name="url" value="jdbc:mysql://115.28.171.84:3306/school_schema?zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=UTF-8" />  
 		<property name="username" value="root" /> 
 		<property name="password" value="root" />
+	    <property name="proxyFilters">
+	        <list>
+	            <ref bean="log-filter" />
+	        </list>
+	    </property>
 		<!-- <property name="url" value="jdbc:mysql://100.0.12.109:3306/school_schema2" />  
 		<property name="username" value="sa" /> 
 		<property name="password" value="dayang" />   -->
@@ -47,7 +55,7 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>

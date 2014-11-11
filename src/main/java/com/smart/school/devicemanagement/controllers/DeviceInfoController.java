@@ -2,6 +2,10 @@ package com.smart.school.devicemanagement.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -30,8 +34,13 @@ public class DeviceInfoController extends BaseController{
 
         model.addAttribute("searchModel", searchModel);
         int pageNo = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_NO_NAME, PageListUtil.DEFAULT_PAGE_NO);
-        int pageSize = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE);      
-        model.addAttribute("contentModel", deviceInfoService.listPage( pageNo, pageSize ,searchModel.getStrName()));
+        int pageSize = ServletRequestUtils.getIntParameter(request, PageListUtil.PAGE_SIZE_NAME, PageListUtil.DEFAULT_PAGE_SIZE); 
+        if (StringUtils.isBlank(searchModel.getStrName())) {
+        	model.addAttribute("contentModel", deviceInfoService.listPage( pageNo, pageSize ,Order.asc("strName")));
+		}else {
+			model.addAttribute("contentModel", deviceInfoService.listPage( pageNo, pageSize ,Order.asc("strName"),Restrictions.like("strName",searchModel.getStrName(),MatchMode.ANYWHERE)));
+		}
+        
 
         return "deviceInfo/list";
     }

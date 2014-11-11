@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,10 @@ public class NewsInfoServiceImpl extends BaseServiceImpl<NewsInfo,String> implem
 
 	
 	@Override
-	public PageList<NewsInfo> listPage(int pageNo, int pageSize, final SimpleExpression ... expressdion) {
+	public PageList<NewsInfo> listPage(final int pageNo,final int pageSize,final Order order ,final SimpleExpression ... expressdion) {
 		INewsInfoDao newsInfoDao = ProjectContext.getBean(INewsInfoDao.class);	
 		
-		return newsInfoDao.listPage(pageNo, pageSize, expressdion);
+		return newsInfoDao.listPage(pageNo, pageSize, order, expressdion);
 	}
 
 	

@@ -1,18 +1,23 @@
 package com.smart.school.devicemanagement.controllers;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,10 +48,10 @@ public class NewsInfoController extends BaseController{
         
         PageList<NewsInfo> pageListNews = null;
         if (StringUtils.isBlank(searchModel.getTitle())) {
-        	pageListNews = newsInfoService.listPage(pageNo, pageSize);
+        	pageListNews = newsInfoService.listPage(pageNo, pageSize , Order.desc("publicTime"));
         	
 		}else {
-			pageListNews =  newsInfoService.listPage( pageNo, pageSize ,Restrictions.like("title", searchModel.getTitle()));
+			pageListNews =  newsInfoService.listPage( pageNo, pageSize ,Order.desc("publicTime") ,Restrictions.like("title", searchModel.getTitle(),MatchMode.ANYWHERE));
 		}
         model.addAttribute("contentModel", pageListNews);
         return "newsInfo/list";
@@ -92,6 +97,17 @@ public class NewsInfoController extends BaseController{
 			
 			newsInfoService.saveOrUpdate(newsInfo);
         }
+		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
+		if(returnUrl==null)
+        	returnUrl="newsInfo/list";
+    	return "redirect:"+returnUrl;     	
+	}
+	
+	@AuthPassport
+	@RequestMapping(value = "/delete/{pk}", method = {RequestMethod.GET})
+	public String delete(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {
+		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
+		newsInfoService.deleteByPk(pk);
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
 		if(returnUrl==null)
         	returnUrl="newsInfo/list";

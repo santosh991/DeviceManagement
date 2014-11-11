@@ -11,5 +11,9 @@ public interface IBaseService <T, PK extends Serializable>{
 	
 	void deleteList(List<T> models);
 
+	void deleteByPk(PK pk);
+	
+	void deleteOne(T model);
+	
 	T getByPk(PK pk);
 }

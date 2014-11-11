@@ -40,7 +40,7 @@
 <body class="login">
 	<!-- BEGIN LOGO -->
 	<div class="logo">
-		<img src="/images/logo.png" alt="" /> 
+		<img src="<c:url value='/images/logo.png'/>" alt="" /> 
 	</div>
 	<!-- END LOGO -->
 	<!-- BEGIN LOGIN -->

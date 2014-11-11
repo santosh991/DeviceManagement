@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.springframework.stereotype.Service;
@@ -39,10 +40,10 @@ public class SchoolInfoServiceImpl extends BaseServiceImpl<SchoolInfo,String> im
 	}
 
 	@Override
-	public PageList<SchoolInfo> listPage(int pageNo, int pageSize,final SimpleExpression ... expressdion) {
+	public PageList<SchoolInfo> listPage(final int pageNo,final int pageSize,final Order order ,final SimpleExpression ... expressdion) {
 		ISchoolInfoDao schoolInfoDao = ProjectContext.getBean(ISchoolInfoDao.class);	
 		
-			return schoolInfoDao.listPage(pageNo, pageSize, expressdion);
+			return schoolInfoDao.listPage(pageNo, pageSize, order, expressdion);
 	}
 
 	
