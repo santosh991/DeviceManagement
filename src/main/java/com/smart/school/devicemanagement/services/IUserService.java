@@ -2,8 +2,8 @@ package com.smart.school.devicemanagement.services;
 
 import java.util.List;
 
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.SimpleExpression;
 
 import com.smart.school.devicemanagement.common.IBaseService;
 import com.smart.school.devicemanagement.common.utilities.PageList;
@@ -21,5 +21,5 @@ public interface IUserService extends IBaseService<User,String>{
 	
 	User saveOrUpdate(User user);
 	
-	PageList<User> listPage(final int pageNo,final int pageSize,final Order order ,final SimpleExpression ... expressdion);
+	PageList<User> listPage(final int pageNo,final int pageSize,final Order order ,final Criterion ... expressdion);
 }

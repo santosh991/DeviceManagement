@@ -3,24 +3,15 @@
  */
 package com.smart.school.devicemanagement.services.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
 import org.springframework.stereotype.Service;
-
 import com.smart.school.devicemanagement.common.BaseServiceImpl;
 import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.common.utilities.PageList;
-import com.smart.school.devicemanagement.dao.IAuthorityDao;
-import com.smart.school.devicemanagement.dao.IDeviceInfoDao;
-import com.smart.school.devicemanagement.dao.IParamInfoDao;
 import com.smart.school.devicemanagement.dao.ISchoolInfoDao;
-import com.smart.school.devicemanagement.genericDao.SimpleH3GenericDaoImpl;
-import com.smart.school.devicemanagement.models.ParamInfo;
 import com.smart.school.devicemanagement.models.SchoolInfo;
 import com.smart.school.devicemanagement.models.User;
 import com.smart.school.devicemanagement.services.ISchoolInfoService;
@@ -40,7 +31,7 @@ public class SchoolInfoServiceImpl extends BaseServiceImpl<SchoolInfo,String> im
 	}
 
 	@Override
-	public PageList<SchoolInfo> listPage(final int pageNo,final int pageSize,final Order order ,final SimpleExpression ... expressdion) {
+	public PageList<SchoolInfo> listPage(final int pageNo,final int pageSize,final Order order ,final Criterion ... expressdion) {
 		ISchoolInfoDao schoolInfoDao = ProjectContext.getBean(ISchoolInfoDao.class);	
 		
 			return schoolInfoDao.listPage(pageNo, pageSize, order, expressdion);

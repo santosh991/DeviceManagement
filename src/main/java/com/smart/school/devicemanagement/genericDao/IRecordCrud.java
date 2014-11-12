@@ -61,5 +61,5 @@ public interface IRecordCrud<T, PK extends Serializable> {
 			final int pageIndex, final Object... values);
 
 	PageList<T> listPage(final int pageNo, final int pageSize,
-			final Order order, final SimpleExpression... expressdion);
+			final Order order, final Criterion... expressdion);
 }

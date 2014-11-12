@@ -192,7 +192,7 @@ public class SimpleH3GenericDaoImpl<T, PK extends Serializable> implements
 	}
 
 	public PageList<T> listPage(final int pageNo, final int pageSize,
-			final Order order, final SimpleExpression... expressdion) {
+			final Order order, final Criterion... expressdion) {
 		Criteria countCriteria = createCriteria(order, expressdion);
 		countCriteria.setProjection(Projections.rowCount());
 		Integer count = Integer.parseInt(countCriteria.uniqueResult().toString());

@@ -1,17 +1,14 @@
 package com.smart.school.devicemanagement.controllers;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.smart.school.devicemanagement.auth.AuthHelper;
 import com.smart.school.devicemanagement.auth.AuthPassport;
 import com.smart.school.devicemanagement.common.BaseController;
@@ -81,18 +77,12 @@ public class NewsInfoController extends BaseController{
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
 		
 		if(newsInfoModel != null ){
-			if (newsInfoModel.getPk() == null) {
-				newsInfoModel.setPk(UUID.randomUUID().toString());
-			}
-			NewsInfo newsInfo = newsInfoService.getByPk(newsInfoModel.getPk());
-			if (newsInfo == null ) {
-				newsInfo = new NewsInfo();
-				newsInfo.setPk(newsInfoModel.getPk());
-			}
-			newsInfo.setTitle(newsInfoModel.getTitle());
-			newsInfo.setContent(newsInfoModel.getContent());
+			NewsInfo newsInfo = new NewsInfo();
+			newsInfoModel.setPk(UUID.randomUUID().toString());
+			
+			BeanUtils.copyProperties(newsInfoModel, newsInfo);
+			
 			newsInfo.setPublicTime(Calendar.getInstance());
-
 			newsInfo.setUser(AuthHelper.getCurrUser(request));
 			
 			newsInfoService.saveOrUpdate(newsInfo);
@@ -104,6 +94,40 @@ public class NewsInfoController extends BaseController{
 	}
 	
 	@AuthPassport
+	@RequestMapping(value = "/edit/{pk}", method = {RequestMethod.GET})
+	public String edit(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {	
+		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
+		if(!model.containsAttribute("contentModel")){
+			NewsInfo newsInfo= newsInfoService.getByPk(pk);
+			NewsInfoModel newsInfoModel = new NewsInfoModel();
+			BeanUtils.copyProperties(newsInfo, newsInfoModel);
+			model.addAttribute("contentModel", newsInfoModel);
+		}
+		
+        return "newsInfo/edit";	
+	}
+	
+	@AuthPassport
+	@RequestMapping(value = "/edit/{pk}", method = {RequestMethod.POST})
+    public String edit(HttpServletRequest request, Model model, @Valid @ModelAttribute("contentModel") NewsInfoModel editModel, @PathVariable(value="pk") String pk, BindingResult result)  {
+        if(result.hasErrors())
+            return edit(request, model, pk);
+        INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
+        
+        String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
+        
+        NewsInfo newsInfo = newsInfoService.getByPk(pk);
+        if (newsInfo != null) {
+        	BeanUtils.copyProperties(editModel, newsInfo);
+            newsInfoService.saveOrUpdate(newsInfo);
+		}
+        if(returnUrl==null)
+        	returnUrl="newsInfo/list";
+    	return "redirect:"+returnUrl;      	
+    }
+	
+	
+	@AuthPassport
 	@RequestMapping(value = "/delete/{pk}", method = {RequestMethod.GET})
 	public String delete(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
@@ -113,4 +137,7 @@ public class NewsInfoController extends BaseController{
         	returnUrl="newsInfo/list";
     	return "redirect:"+returnUrl;     	
 	}
+	
+	
+
 }

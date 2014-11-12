@@ -1,5 +1,6 @@
 package com.smart.school.devicemanagement.models;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class CustomInfo implements java.io.Serializable{
 	private String phone1;
 	private String phone2;
 	private SchoolInfo schoolInfo;
-	private Date expirationTime;
+	private Calendar expirationTime;
 	
 	public CustomInfo() {
 		super();
@@ -114,11 +115,11 @@ public class CustomInfo implements java.io.Serializable{
 	}
 
 	@Column(name = "expirationTime",nullable=false)
-	public Date getExpirationTime() {
+	public Calendar getExpirationTime() {
 		return expirationTime;
 	}
 
-	public void setExpirationTime(Date expirationTime) {
+	public void setExpirationTime(Calendar expirationTime) {
 		this.expirationTime = expirationTime;
 	}
 	

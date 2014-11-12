@@ -1,13 +1,15 @@
 package com.smart.school.devicemanagement.services.impl;
 
 import java.util.List;
+
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import com.smart.school.devicemanagement.common.BaseServiceImpl;
 import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.common.utilities.PageList;
@@ -51,7 +53,7 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements IUs
 		return userDao.get(user.getPk());
 	}
 	
-	public PageList<User> listPage(final int pageNo,final int pageSize,final Order order ,final SimpleExpression ... expressdion){
+	public PageList<User> listPage(final int pageNo,final int pageSize,final Order order ,final Criterion ... expressdion){
 		IUserDao userDao = ProjectContext.getBean(IUserDao.class);	
 		
 		return userDao.listPage(pageNo, pageSize, order ,expressdion);
