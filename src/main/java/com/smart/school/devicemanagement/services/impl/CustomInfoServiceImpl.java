@@ -1,5 +1,8 @@
 package com.smart.school.devicemanagement.services.impl;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;
@@ -21,4 +24,10 @@ public class CustomInfoServiceImpl extends BaseServiceImpl<CustomInfo,String> im
 		return customInfoDao.listPage(pageNo, pageSize, order, expressdion);
 	}
 
+	@Override
+	public List<CustomInfo> getCustomInfoList(final Criterion ... expressdion){
+		ICustomInfoDao customInfoDao = ProjectContext.getBean(ICustomInfoDao.class);	
+		Criteria criteria = customInfoDao.createCriteria(null, expressdion);
+		return criteria.list();
+	}
 }

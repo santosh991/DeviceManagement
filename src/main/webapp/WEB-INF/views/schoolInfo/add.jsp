@@ -73,53 +73,32 @@
                <!-- BEGIN SAMPLE FORM PORTLET-->   
                <div class="portlet ">
                   <div class="portlet-title">
-                     <div class="caption"><i class="icon-edit"></i>客户信息</div>
+                     <div class="caption"><i class="icon-edit"></i>校园信息</div>
                   </div>
                   <div class="portlet-body form">
                      <form:form modelAttribute="contentModel" class="form-horizontal" method="POST">
                         <div class="form-body">
                            <div class="form-group">
-                              <label  class="col-md-2 control-label">客户姓名</label>
+                              <label  class="col-md-2 control-label">校园名称</label>
                               <div class="col-md-10">
-                                 <form:input path="strName" class="form-control" placeholder="客户姓名"/><br/>
+                                 <form:input path="strName" class="form-control" placeholder="校园名称"/><br/>
                                  <form:errors path="strName" class="field-has-error"></form:errors>
                               </div>
                            </div>
                            <div class="form-group">
-                              <label  class="col-md-2 control-label">孩子姓名</label>
+                              <label  class="col-md-2 control-label">地址</label>
                               <div class="col-md-10">
-                                 <form:input path="childrenName" class="form-control" placeholder="孩子姓名"/><br/>
-                                 <form:errors path="childrenName" class="field-has-error"></form:errors>
+                                 <form:textarea path="address" class="form-control" placeholder="地址"/><br/>
+                                 <form:errors path="address" class="field-has-error"></form:errors>
                               </div>
-                           </div>           
+                           </div>          
                            <div class="form-group">
-                              <label  class="col-md-2 control-label">长幼关系</label>
+                              <label  class="col-md-2 control-label">电话</label>
                               <div class="col-md-10">
-                                 <form:input path="relation" class="form-control" placeholder="长幼关系"/><br/>
-                                 <form:errors path="relation" class="field-has-error"></form:errors>
+                                 <form:textarea path="telephone" class="form-control" placeholder="电话"/><br/>
+                                 <form:errors path="telephone" class="field-has-error"></form:errors>
                               </div>
-                           </div>   
-                           <div class="form-group">
-                              <label  class="col-md-2 control-label">登录密码</label>
-                              <div class="col-md-10">
-                                 <form:password path="psd" class="form-control" placeholder="联系电话"/><br/>
-                                 <form:errors path="psd" class="field-has-error"></form:errors>
-                              </div>
-                           </div>   
-                           <div class="form-group">
-                              <label  class="col-md-2 control-label">联系电话</label>
-                              <div class="col-md-10">
-                                 <form:input path="phone1" class="form-control" placeholder="联系电话"/><br/>
-                                 <form:errors path="phone1" class="field-has-error"></form:errors>
-                              </div>
-                           </div>   
-                           <div class="form-group">
-                              <label  class="col-md-2 control-label">备用联系电话</label>
-                              <div class="col-md-10">
-                                 <form:input path="phone2" class="form-control" placeholder="备用联系电话"/><br/>
-                                 <form:errors path="phone2" class="field-has-error"></form:errors>
-                              </div>
-                           </div>                                                           
+                           </div>                                                                 
                         </div>
                         <div class="form-actions fluid">
                            <div class="col-md-offset-6 col-md-6">

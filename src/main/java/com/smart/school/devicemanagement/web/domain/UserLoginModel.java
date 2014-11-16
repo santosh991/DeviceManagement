@@ -1,5 +1,7 @@
 package com.smart.school.devicemanagement.web.domain;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserLoginModel implements java.io.Serializable{

@@ -1,17 +1,21 @@
 package com.smart.school.devicemanagement.controllers;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +26,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.smart.school.devicemanagement.auth.AuthHelper;
+import com.smart.school.devicemanagement.app.domain.App_CustomModel;
 import com.smart.school.devicemanagement.auth.AuthPassport;
 import com.smart.school.devicemanagement.common.BaseController;
+import com.smart.school.devicemanagement.common.JSONHelper;
 import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.common.utilities.PageListUtil;
@@ -36,6 +41,8 @@ import com.smart.school.devicemanagement.web.domain.CustomInfoModel;
 @RequestMapping(value = "/customInfo")
 public class CustomInfoController extends BaseController{
 
+	private static final Logger log = LoggerFactory.getLogger(CustomInfoController.class);
+	
 	@AuthPassport
 	@RequestMapping(value="/list", method = {RequestMethod.GET})
     public String list(HttpServletRequest request, Model model, CustomInfo searchModel){ 	
@@ -147,6 +154,39 @@ public class CustomInfoController extends BaseController{
     	return "redirect:"+returnUrl;     	
 	}
 	
-	
+	@RequestMapping(value="/appLogin", method = {RequestMethod.GET})
+	public void appLogin(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);
+		 PrintWriter pw = null;  
+	        try {  
+	        	String strName = request.getParameter("strName");
+	        	String psd = request.getParameter("psd");
+	        	
+	        	Criterion criterion = Restrictions.and(Restrictions.eq("strName", strName),Restrictions.eq("psd", psd));
+	        	List<CustomInfo> customList = customInfoService.getCustomInfoList(criterion);
+	        	
+				response.setContentType("text/xml;charset=utf-8");   
+	            response.setCharacterEncoding("UTF-8");  
+	            response.setHeader("Cache-Control", "no-cache");  
+	            
+	        	if (customList.size() > 0) {
+					App_CustomModel appCustomModel = new App_CustomModel();
+					BeanUtils.copyProperties(customList.get(0), appCustomModel);
+
+		            pw = response.getWriter();  
+		            String xmlContent = JSONHelper.toJSON(customList.get(0));
+		            pw.print(xmlContent);  
+		            pw.flush();  
+				}
+	        }  
+	        catch (Exception e) {  
+	            log.error("",e);
+	        }  
+	        finally {  
+	            if (pw != null)  
+	                pw.close();  
+	        }  
+		
+	}
 
 }

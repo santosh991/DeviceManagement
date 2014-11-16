@@ -1,10 +1,12 @@
 package com.smart.school.devicemanagement.web.domain;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.smart.school.devicemanagement.models.User;
 
-public class SchoolInfoModel {
+public class SchoolInfoModel  implements java.io.Serializable{
 
 	private String pk;
 	@NotEmpty(message="校园名称不能为空")
