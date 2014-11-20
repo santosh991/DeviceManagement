@@ -2,6 +2,7 @@ package com.smart.school.devicemanagement.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,6 +37,7 @@ import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.common.utilities.PageListUtil;
 import com.smart.school.devicemanagement.models.NewsInfo;
+import com.smart.school.devicemanagement.models.User;
 import com.smart.school.devicemanagement.services.ICustomInfoService;
 import com.smart.school.devicemanagement.services.INewsInfoService;
 import com.smart.school.devicemanagement.web.domain.NewsInfoModel;
@@ -158,6 +160,9 @@ public class NewsInfoController extends BaseController{
 	public void appLogin(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
+		
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
 		 PrintWriter pw = null;  
 	        try {  
 	        	String strName = request.getParameter("pk");
@@ -167,6 +172,14 @@ public class NewsInfoController extends BaseController{
 	        	for (NewsInfo newsInfo : newsInfos) {
 	        		App_NewsInfoModel app_NewsInfoModel = new App_NewsInfoModel();
 	        		BeanUtils.copyProperties(newsInfo, app_NewsInfoModel);
+	        		if (newsInfo.getUser() != null) {
+	        			app_NewsInfoModel.setPublicUserId(newsInfo.getUser().getPk());
+	        			app_NewsInfoModel.setPublicUserName(newsInfo.getUser().getStrName());
+					}
+	        		if (newsInfo.getPublicTime() != null) {
+	        			String time=df.format(newsInfo.getPublicTime().getTime());
+	        			app_NewsInfoModel.setStrPublicTime(time);
+					}
 	        		app_NewsInfoModels.add(app_NewsInfoModel);
 				}
 	        	

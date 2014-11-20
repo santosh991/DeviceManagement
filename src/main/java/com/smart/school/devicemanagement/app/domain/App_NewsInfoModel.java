@@ -15,7 +15,7 @@ public class App_NewsInfoModel implements Serializable {
 	private String publicUserName;
 	private String title;
 	private String content;
-	private Calendar publicTime;
+	private String strPublicTime;
 	public String getPk() {
 		return pk;
 	}
@@ -58,11 +58,11 @@ public class App_NewsInfoModel implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Calendar getPublicTime() {
-		return publicTime;
+	public String getStrPublicTime() {
+		return strPublicTime;
 	}
-	public void setPublicTime(Calendar publicTime) {
-		this.publicTime = publicTime;
+	public void setStrPublicTime(String strPublicTime) {
+		this.strPublicTime = strPublicTime;
 	}
 	
 	
