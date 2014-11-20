@@ -93,6 +93,15 @@
                               </div>
                            </div>          
                            <div class="form-group">
+                              <label  class="col-md-2 control-label">地址</label>
+                              <div class="col-md-10">
+                              	<form:select path="user"  multiple="false" class="select">
+                              		<form:options items="${users}" itemLabel="strName" itemValue="pk"/>
+                              	</form:select>
+                                 <form:errors path="user" class="field-has-error"></form:errors>
+                              </div>
+                           </div>      
+                           <div class="form-group">
                               <label  class="col-md-2 control-label">电话</label>
                               <div class="col-md-10">
                                  <form:textarea path="telephone" class="form-control" placeholder="电话"/><br/>

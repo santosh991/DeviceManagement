@@ -29,6 +29,7 @@ import com.smart.school.devicemanagement.models.SchoolInfo;
 import com.smart.school.devicemanagement.models.SchoolInfo;
 import com.smart.school.devicemanagement.services.ISchoolInfoService;
 import com.smart.school.devicemanagement.services.ISchoolInfoService;
+import com.smart.school.devicemanagement.services.IUserService;
 import com.smart.school.devicemanagement.web.domain.SchoolInfoModel;
 
 @Controller
@@ -58,12 +59,15 @@ public class SchoolInfoController extends BaseController{
 	@AuthPassport
 	@RequestMapping(value = "/add", method = {RequestMethod.GET})
 	public String add(Model model){	
-		
+		IUserService userService = ProjectContext.getBean(IUserService.class);
 		if(!model.containsAttribute("contentModel")){
 			SchoolInfoModel schoolInfoModel=new SchoolInfoModel();
 			schoolInfoModel.setPk(UUID.randomUUID().toString());
 			
 			model.addAttribute("contentModel", schoolInfoModel);
+		}
+		if (!model.containsAttribute("users")) {
+			model.addAttribute("users", userService.getAll());
 		}
 		
         return "schoolInfo/add";	
@@ -82,10 +86,7 @@ public class SchoolInfoController extends BaseController{
 			schoolInfoModel.setPk(UUID.randomUUID().toString());
 			
 			BeanUtils.copyProperties(schoolInfoModel, schoolInfo);
-			
-//			schoolInfo.setPublicTime(Calendar.getInstance());
-			schoolInfo.setUser(AuthHelper.getCurrUser(request));
-			
+
 			schoolInfoService.saveOrUpdate(schoolInfo);
         }
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
@@ -98,11 +99,15 @@ public class SchoolInfoController extends BaseController{
 	@RequestMapping(value = "/edit/{pk}", method = {RequestMethod.GET})
 	public String edit(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {	
 		ISchoolInfoService schoolInfoService = ProjectContext.getBean(ISchoolInfoService.class);
+		IUserService userService = ProjectContext.getBean(IUserService.class);
 		if(!model.containsAttribute("contentModel")){
 			SchoolInfo schoolInfo= schoolInfoService.getByPk(pk);
 			SchoolInfoModel schoolInfoModel = new SchoolInfoModel();
 			BeanUtils.copyProperties(schoolInfo, schoolInfoModel);
 			model.addAttribute("contentModel", schoolInfoModel);
+		}
+		if (!model.containsAttribute("users")) {
+			model.addAttribute("users", userService.getAll());
 		}
 		
         return "schoolInfo/edit";	

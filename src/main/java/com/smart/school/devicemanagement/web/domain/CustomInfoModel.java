@@ -25,7 +25,7 @@ public class CustomInfoModel  implements java.io.Serializable{
 	
 	private String phone1;
 	private String phone2;
-	private SchoolInfoModel schoolInfoModel;
+	private SchoolInfo schoolInfo;
 	private Calendar expirationTime;
 	
 	public String getPk() {
@@ -76,12 +76,14 @@ public class CustomInfoModel  implements java.io.Serializable{
 	public void setPhone2(String phone2) {
 		this.phone2 = phone2;
 	}
-	public SchoolInfoModel getSchoolInfoModel() {
-		return schoolInfoModel;
+
+	public SchoolInfo getSchoolInfo() {
+		return schoolInfo;
 	}
-	public void setSchoolInfoModel(SchoolInfoModel schoolInfoModel) {
-		this.schoolInfoModel = schoolInfoModel;
+	public void setSchoolInfo(SchoolInfo schoolInfo) {
+		this.schoolInfo = schoolInfo;
 	}
+
 	public Calendar getExpirationTime() {
 		return expirationTime;
 	}

@@ -1,5 +1,6 @@
 package com.smart.school.devicemanagement.web.domain;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,10 +12,14 @@ public class SchoolInfoModel  implements java.io.Serializable{
 	private String pk;
 	@NotEmpty(message="校园名称不能为空")
 	private String strName;
-	private UserLoginModel userModel;
+	
 	@NotEmpty(message="地址不能为空")
 	private String address;
 	private String telephone;
+	
+	@NotNull(message="园区必须有管理员")
+	private User user;
+	
 	public String getPk() {
 		return pk;
 	}
@@ -27,12 +32,7 @@ public class SchoolInfoModel  implements java.io.Serializable{
 	public void setStrName(String strName) {
 		this.strName = strName;
 	}
-	public UserLoginModel getUserModel() {
-		return userModel;
-	}
-	public void setUserModel(UserLoginModel userModel) {
-		this.userModel = userModel;
-	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -44,6 +44,12 @@ public class SchoolInfoModel  implements java.io.Serializable{
 	}
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	

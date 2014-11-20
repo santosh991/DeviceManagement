@@ -105,6 +105,15 @@
                                  <form:password path="psd" class="form-control" placeholder="联系电话"/><br/>
                                  <form:errors path="psd" class="field-has-error"></form:errors>
                               </div>
+                           </div>        
+                           <div class="form-group">
+                              <label  class="col-md-2 control-label">所在园区</label>
+                              <div class="col-md-10">
+                                 <form:select path="schoolInfo"  multiple="false" class="form-control">
+                                 		<form:options items="${schoolInfos}" itemLabel="strName" />
+                                 </form:select>
+                                 <form:errors path="schoolInfo" class="field-has-error" />
+                              </div>
                            </div>   
                            <div class="form-group">
                               <label  class="col-md-2 control-label">联系电话</label>

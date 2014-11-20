@@ -136,6 +136,7 @@ public class NewsInfoController extends BaseController{
         NewsInfo newsInfo = newsInfoService.getByPk(pk);
         if (newsInfo != null) {
         	BeanUtils.copyProperties(editModel, newsInfo);
+        	
             newsInfoService.saveOrUpdate(newsInfo);
 		}
         if(returnUrl==null)

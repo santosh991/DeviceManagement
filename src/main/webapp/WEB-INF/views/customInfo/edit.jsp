@@ -107,6 +107,15 @@
                               </div>
                            </div>   
                            <div class="form-group">
+                              <label  class="col-md-2 control-label">所在园区</label>
+                              <div class="col-md-10">
+                                 <form:select path="schoolInfo"  multiple="false" class="select">
+                                 		<form:options items="${schoolInfos}" itemLabel="strName" itemValue="pk"/>
+                                 </form:select>
+                                 <form:errors path="schoolInfo" class="field-has-error" />
+                              </div>
+                           </div>   
+                           <div class="form-group">
                               <label  class="col-md-2 control-label">联系电话</label>
                               <div class="col-md-10">
                                  <form:input path="phone1" class="form-control" placeholder="联系电话"/><br/>

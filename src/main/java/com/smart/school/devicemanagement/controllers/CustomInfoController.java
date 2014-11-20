@@ -35,6 +35,7 @@ import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.common.utilities.PageListUtil;
 import com.smart.school.devicemanagement.models.CustomInfo;
 import com.smart.school.devicemanagement.services.ICustomInfoService;
+import com.smart.school.devicemanagement.services.ISchoolInfoService;
 import com.smart.school.devicemanagement.web.domain.CustomInfoModel;
 
 @Controller
@@ -71,12 +72,15 @@ public class CustomInfoController extends BaseController{
 	@AuthPassport
 	@RequestMapping(value = "/add", method = {RequestMethod.GET})
 	public String add(Model model){	
-		
+		ISchoolInfoService schoolInfoService = ProjectContext.getBean(ISchoolInfoService.class);
 		if(!model.containsAttribute("contentModel")){
 			CustomInfoModel customInfoModel= new CustomInfoModel();
 			customInfoModel.setPk(UUID.randomUUID().toString());
 			
 			model.addAttribute("contentModel", customInfoModel);
+		}
+		if(!model.containsAttribute("schoolInfos")){
+			model.addAttribute("schoolInfos", schoolInfoService.getAll());
 		}
 		
         return "customInfo/add";	
@@ -100,7 +104,6 @@ public class CustomInfoController extends BaseController{
 			calendar.add(calendar.MONTH, 1);
 			customInfo.setExpirationTime(calendar);
 
-//			customInfo.setUser(AuthHelper.getCurrUser(request));
 			customInfoService.saveOrUpdate(customInfo);
         }
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
@@ -112,12 +115,16 @@ public class CustomInfoController extends BaseController{
 	@AuthPassport
 	@RequestMapping(value = "/edit/{pk}", method = {RequestMethod.GET})
 	public String edit(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {	
+		ISchoolInfoService schoolInfoService = ProjectContext.getBean(ISchoolInfoService.class);
 		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);
 		if(!model.containsAttribute("contentModel")){
 			CustomInfo customInfo= customInfoService.getByPk(pk);
 			CustomInfoModel customInfoModel = new CustomInfoModel();
 			BeanUtils.copyProperties(customInfo, customInfoModel);
 			model.addAttribute("contentModel", customInfoModel);
+		}
+		if(!model.containsAttribute("schoolInfos")){
+			model.addAttribute("schoolInfos", schoolInfoService.getAll());
 		}
 		
         return "customInfo/edit";	
