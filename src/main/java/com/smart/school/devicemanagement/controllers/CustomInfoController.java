@@ -36,6 +36,7 @@ import com.smart.school.devicemanagement.common.utilities.PageListUtil;
 import com.smart.school.devicemanagement.models.CustomInfo;
 import com.smart.school.devicemanagement.services.ICustomInfoService;
 import com.smart.school.devicemanagement.services.ISchoolInfoService;
+import com.smart.school.devicemanagement.services.IUserService;
 import com.smart.school.devicemanagement.web.domain.CustomInfoModel;
 
 @Controller
@@ -60,7 +61,6 @@ public class CustomInfoController extends BaseController{
         	pageListNews = customInfoService.listPage(pageNo, pageSize , Order.desc("strName"));
         	
 		}else {
-//			SimpleExpression s = Restrictions.like("strName", searchModel.getStrName(),MatchMode.ANYWHERE);
 			LogicalExpression expression = Restrictions.or(Restrictions.like("strName", searchModel.getStrName(),MatchMode.ANYWHERE),Restrictions.like("childrenName", searchModel.getStrName(),MatchMode.ANYWHERE));
 			pageListNews =  customInfoService.listPage( pageNo, pageSize ,Order.desc("strName") ,expression);
 		}
@@ -73,6 +73,7 @@ public class CustomInfoController extends BaseController{
 	@RequestMapping(value = "/add", method = {RequestMethod.GET})
 	public String add(Model model){	
 		ISchoolInfoService schoolInfoService = ProjectContext.getBean(ISchoolInfoService.class);
+		IUserService userService = ProjectContext.getBean(IUserService.class);
 		if(!model.containsAttribute("contentModel")){
 			CustomInfoModel customInfoModel= new CustomInfoModel();
 			customInfoModel.setPk(UUID.randomUUID().toString());
@@ -82,6 +83,9 @@ public class CustomInfoController extends BaseController{
 		if(!model.containsAttribute("schoolInfos")){
 			model.addAttribute("schoolInfos", schoolInfoService.getAll());
 		}
+//		if (!model.containsAttribute("users")) {
+//			model.addAttribute("users", userService.getAll());
+//		}
 		
         return "customInfo/add";	
 	}
@@ -117,6 +121,7 @@ public class CustomInfoController extends BaseController{
 	public String edit(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {	
 		ISchoolInfoService schoolInfoService = ProjectContext.getBean(ISchoolInfoService.class);
 		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);
+		IUserService userService = ProjectContext.getBean(IUserService.class);
 		if(!model.containsAttribute("contentModel")){
 			CustomInfo customInfo= customInfoService.getByPk(pk);
 			CustomInfoModel customInfoModel = new CustomInfoModel();
@@ -126,7 +131,9 @@ public class CustomInfoController extends BaseController{
 		if(!model.containsAttribute("schoolInfos")){
 			model.addAttribute("schoolInfos", schoolInfoService.getAll());
 		}
-		
+//		if (!model.containsAttribute("users")) {
+//			model.addAttribute("users", userService.getAll());
+//		}
         return "customInfo/edit";	
 	}
 	

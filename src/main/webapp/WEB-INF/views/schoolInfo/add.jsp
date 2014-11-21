@@ -95,7 +95,7 @@
                            <div class="form-group">
                               <label  class="col-md-2 control-label">联系人</label>
                               <div class="col-md-10">
-                              	<form:select path="user"  multiple="false" class="select">
+                              	<form:select path="user"  multiple="false" class="form-control" >
                               		<form:options items="${users}" itemLabel="strName" itemValue="pk"/>
                               	</form:select>
                                  <form:errors path="user" class="field-has-error"></form:errors>

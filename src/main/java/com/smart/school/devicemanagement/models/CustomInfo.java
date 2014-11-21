@@ -104,7 +104,7 @@ public class CustomInfo implements java.io.Serializable{
 		this.phone2 = phone2;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="fk_schoolInfo")
 	public SchoolInfo getSchoolInfo() {
 		return schoolInfo;
