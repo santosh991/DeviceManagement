@@ -22,6 +22,15 @@ public class SchoolInfo implements java.io.Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	public SchoolInfo(String pk) {
+		super();
+		this.pk = pk;
+	}
+
+
 
 	@Id
 	@Column(name = "pk",  nullable = false, length = 36)

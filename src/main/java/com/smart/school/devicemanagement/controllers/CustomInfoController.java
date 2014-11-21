@@ -2,6 +2,7 @@ package com.smart.school.devicemanagement.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -34,10 +35,13 @@ import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.common.utilities.PageListUtil;
 import com.smart.school.devicemanagement.models.CustomInfo;
+import com.smart.school.devicemanagement.models.SchoolInfo;
+import com.smart.school.devicemanagement.models.User;
 import com.smart.school.devicemanagement.services.ICustomInfoService;
 import com.smart.school.devicemanagement.services.ISchoolInfoService;
 import com.smart.school.devicemanagement.services.IUserService;
 import com.smart.school.devicemanagement.web.domain.CustomInfoModel;
+import com.smart.school.devicemanagement.web.domain.KeyValueModel;
 
 @Controller
 @RequestMapping(value = "/customInfo")
@@ -80,13 +84,17 @@ public class CustomInfoController extends BaseController{
 			
 			model.addAttribute("contentModel", customInfoModel);
 		}
-		if(!model.containsAttribute("schoolInfos")){
-			model.addAttribute("schoolInfos", schoolInfoService.getAll());
+		if(!model.containsAttribute("keyValueModels")){
+			List<SchoolInfo> schoolInfos = schoolInfoService.getAll();
+			List<User> users = new ArrayList<User>();
+			for (SchoolInfo schoolInfo : schoolInfos) {
+				User user = new User();
+				BeanUtils.copyProperties(schoolInfo, user);
+				users.add(user);
+			}
+			model.addAttribute("users", users);
 		}
-//		if (!model.containsAttribute("users")) {
-//			model.addAttribute("users", userService.getAll());
-//		}
-		
+
         return "customInfo/add";	
 	}
 	
@@ -108,6 +116,9 @@ public class CustomInfoController extends BaseController{
 			calendar.add(calendar.MONTH, 1);
 			customInfo.setExpirationTime(calendar);
 
+			customInfo.setSchoolInfo(new SchoolInfo(customInfoModel.getUser().getPk()));
+            customInfoService.saveOrUpdate(customInfo);
+            
 			customInfoService.saveOrUpdate(customInfo);
         }
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
@@ -128,12 +139,16 @@ public class CustomInfoController extends BaseController{
 			BeanUtils.copyProperties(customInfo, customInfoModel);
 			model.addAttribute("contentModel", customInfoModel);
 		}
-		if(!model.containsAttribute("schoolInfos")){
-			model.addAttribute("schoolInfos", schoolInfoService.getAll());
+		if(!model.containsAttribute("users")){
+			List<SchoolInfo> schoolInfos = schoolInfoService.getAll();
+			List<User> users = new ArrayList<User>();
+			for (SchoolInfo schoolInfo : schoolInfos) {
+				User user = new User();
+				BeanUtils.copyProperties(schoolInfo, user);
+				users.add(user);
+			}
+			model.addAttribute("users", users);
 		}
-//		if (!model.containsAttribute("users")) {
-//			model.addAttribute("users", userService.getAll());
-//		}
         return "customInfo/edit";	
 	}
 	
@@ -148,7 +163,8 @@ public class CustomInfoController extends BaseController{
         
         CustomInfo customInfo = customInfoService.getByPk(pk);
         if (customInfo != null) {
-        	BeanUtils.copyProperties(editModel, customInfo);
+        	BeanUtils.copyProperties(editModel, customInfo,"expirationTime");
+        	customInfo.setSchoolInfo(new SchoolInfo(editModel.getUser().getPk()));
             customInfoService.saveOrUpdate(customInfo);
 		}
         if(returnUrl==null)

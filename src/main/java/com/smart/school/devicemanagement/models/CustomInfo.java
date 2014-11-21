@@ -1,8 +1,6 @@
 package com.smart.school.devicemanagement.models;
 
 import java.util.Calendar;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

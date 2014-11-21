@@ -125,6 +125,7 @@
 		                              <th>儿童</th>
 		                              <th>长幼关系</th>
 		                              <th>联系电话</th>
+		                              <th>所在园区</th>
 		                              <th>备用电话</th>
 		                              <th>有效时间</th>
 		                           </tr>
@@ -139,6 +140,7 @@
 							            <td>${ item.childrenName }</td>
 							            <td>${ item.relation }</td>
 							            <td>${ item.phone1 }</td>
+							            <td>${ item.schoolInfo.strName }</td>
 							            <td>${ item.phone2 }</td>
 							            <td>${ item.expirationTime.getTime().toLocaleString() }</td>
 							        </tr>

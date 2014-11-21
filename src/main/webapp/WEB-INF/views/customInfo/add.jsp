@@ -109,9 +109,10 @@
                            <div class="form-group">
                               <label  class="col-md-2 control-label">所在园区</label>
                               <div class="col-md-10">
-                                 <form:select path="schoolInfo.id" items="${schoolInfos}" itemLabel="schoolInfo.strName" itemValue="schoolInfo.pk"></form:select>
-                                 
-                                 <form:errors path="schoolInfo" class="field-has-error" />
+                              	<form:select path="user"  multiple="false" class="form-control" >
+                              		<form:options items="${users}" itemLabel="strName" itemValue="pk"/>
+                              	</form:select>
+                                 <form:errors path="user" class="field-has-error"></form:errors>
                               </div>
                            </div>   
                            <div class="form-group">

@@ -98,21 +98,21 @@
                                  <form:input path="relation" class="form-control" placeholder="长幼关系"/><br/>
                                  <form:errors path="relation" class="field-has-error"></form:errors>
                               </div>
-                           </div>   
+                           </div>     
                            <div class="form-group">
                               <label  class="col-md-2 control-label">登录密码</label>
                               <div class="col-md-10">
-                                 <form:password path="psd" class="form-control" placeholder="联系电话"/><br/>
+                                 <form:password path="psd" class="form-control" /><br/>
                                  <form:errors path="psd" class="field-has-error"></form:errors>
                               </div>
-                           </div>   
+                           </div>    
                            <div class="form-group">
                               <label  class="col-md-2 control-label">所在园区</label>
                               <div class="col-md-10">
-                                 <form:select path="schoolInfo"  multiple="false" class="form-control">
-                                 		<form:options items="${schoolInfos}" itemLabel="strName" itemValue="pk"/>
-                                 </form:select>
-                                 <form:errors path="schoolInfo" class="field-has-error" />
+                              	<form:select path="user"  multiple="false" class="form-control" >
+                              		<form:options items="${users}" itemLabel="strName" itemValue="pk"/>
+                              	</form:select>
+                                 <form:errors path="user" class="field-has-error"></form:errors>
                               </div>
                            </div>   
                            <div class="form-group">

@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.smart.school.devicemanagement.models.SchoolInfo;
+import com.smart.school.devicemanagement.models.User;
 
 public class CustomInfoModel  implements java.io.Serializable{
 
@@ -25,7 +26,9 @@ public class CustomInfoModel  implements java.io.Serializable{
 	
 	private String phone1;
 	private String phone2;
-	private SchoolInfo schoolInfo;
+	
+	private User user;
+	
 	private Calendar expirationTime;
 	
 	public String getPk() {
@@ -77,13 +80,13 @@ public class CustomInfoModel  implements java.io.Serializable{
 		this.phone2 = phone2;
 	}
 
-	public SchoolInfo getSchoolInfo() {
-		return schoolInfo;
+	public User getUser() {
+		return user;
 	}
-	public void setSchoolInfo(SchoolInfo schoolInfo) {
-		this.schoolInfo = schoolInfo;
+	public void setUser(User user) {
+		this.user = user;
 	}
-
+	
 	public Calendar getExpirationTime() {
 		return expirationTime;
 	}
