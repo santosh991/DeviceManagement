@@ -177,7 +177,10 @@ public class CustomInfoController extends BaseController{
 	@RequestMapping(value = "/delete/{pk}", method = {RequestMethod.GET})
 	public String delete(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {
 		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);
-		customInfoService.deleteByPk(pk);
+		
+		for (String strId : pk.split(",")) {
+			customInfoService.deleteByPk(strId);
+		}
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
 		if(returnUrl==null)
         	returnUrl="customInfo/list";

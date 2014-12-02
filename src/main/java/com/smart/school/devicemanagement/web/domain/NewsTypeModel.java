@@ -4,13 +4,24 @@ import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class NewsTypeModel {
+public class NewsTypeModel implements java.io.Serializable{
 
 	private String pk;
 	@NotEmpty(message="标题不能为空")
 	private String strName;
 	@Min(0)
 	private int level;
+	
+	public NewsTypeModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public NewsTypeModel(String pk) {
+		super();
+		this.pk = pk;
+	}
+
 	public String getPk() {
 		return pk;
 	}
@@ -23,10 +34,7 @@ public class NewsTypeModel {
 	public void setStrName(String strName) {
 		this.strName = strName;
 	}
-	public NewsTypeModel() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
 	public int getLevel() {
 		return level;
 	}

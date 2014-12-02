@@ -46,4 +46,5 @@ public abstract class BaseServiceImpl <T, PK extends Serializable> implements IB
 	public T getByPk(PK pk){
 		return (T)getDao().get(pk);
 	}
+	
 }

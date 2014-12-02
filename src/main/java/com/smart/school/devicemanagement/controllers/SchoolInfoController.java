@@ -137,7 +137,10 @@ public class SchoolInfoController extends BaseController{
 	@RequestMapping(value = "/delete/{pk}", method = {RequestMethod.GET})
 	public String delete(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {
 		ISchoolInfoService schoolInfoService = ProjectContext.getBean(ISchoolInfoService.class);
-		schoolInfoService.deleteByPk(pk);
+		
+		for (String strId : pk.split(",")) {
+			schoolInfoService.deleteByPk(strId);
+		}
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
 		if(returnUrl==null)
         	returnUrl="schoolInfo/list";

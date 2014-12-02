@@ -131,7 +131,10 @@ private static final Logger log = LoggerFactory.getLogger(NewsTypeController.cla
 	@RequestMapping(value = "/delete/{pk}", method = {RequestMethod.GET})
 	public String delete(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {
 		INewsTypeService newsTypeService = ProjectContext.getBean(INewsTypeService.class);
-		newsTypeService.deleteByPk(pk);
+		
+		for (String strId : pk.split(",")) {
+			newsTypeService.deleteByPk(strId);
+		}
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
 		if(returnUrl==null)
         	returnUrl="newsType/list";

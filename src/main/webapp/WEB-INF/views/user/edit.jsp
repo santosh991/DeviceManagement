@@ -73,34 +73,46 @@
                <!-- BEGIN SAMPLE FORM PORTLET-->   
                <div class="portlet ">
                   <div class="portlet-title">
-                     <div class="caption"><i class="icon-edit"></i>公告内容</div>
+                     <div class="caption"><i class="icon-edit"></i>用户信息</div>
                   </div>
                   <div class="portlet-body form">
                      <form:form modelAttribute="contentModel" class="form-horizontal" method="POST">
                         <div class="form-body">
                            <div class="form-group">
-                              <label  class="col-md-2 control-label">标题</label>
+                              <label  class="col-md-2 control-label">用户名</label>
                               <div class="col-md-10">
-                                 <form:input path="title" class="form-control" placeholder="名称"/><br/>
-                                 <form:errors path="title" class="field-has-error"></form:errors>
+                                 <form:input path="strName" class="form-control" placeholder="用户名"/><br/>
+                                 <form:errors path="strName" class="field-has-error"></form:errors>
                               </div>
                            </div>
                            <div class="form-group">
-                              <label  class="col-md-2 control-label">公告类型</label>
+                              <label  class="col-md-2 control-label">密码</label>
                               <div class="col-md-10">
-                              	<form:select path="newsTypeModel"  multiple="false" class="form-control" >
-                              		<form:options items="${users}" itemLabel="strName" itemValue="pk"/>
-                              	</form:select>
-                                 <form:errors path="newsTypeModel" class="field-has-error"></form:errors>
+                                 <form:password path="psd" class="form-control" placeholder="密码"/><br/>
+                                 <form:errors path="psd" class="field-has-error"></form:errors>
                               </div>
-                           </div>          
+                           </div>   
                            <div class="form-group">
-                              <label  class="col-md-2 control-label">内容</label>
+                              <label  class="col-md-2 control-label">联系方式</label>
                               <div class="col-md-10">
-                                 <form:textarea path="content" class="form-control" placeholder="公告内容"/><br/>
-                                 <form:errors path="content" class="field-has-error"></form:errors>
+                                 <form:input path="phone1" class="form-control" placeholder="联系方式"/><br/>
+                                 <form:errors path="phone1" class="field-has-error"></form:errors>
                               </div>
-                           </div>                                                                  
+                           </div>       
+                           <div class="form-group">
+                              <label  class="col-md-2 control-label">状态</label>
+                              <div class="col-md-10">
+                                 <form:input path="enumState" class="form-control" placeholder="状态"/><br/>
+                                 <form:errors path="enumState" class="field-has-error"></form:errors>
+                              </div>
+                           </div>   
+                           <div class="form-group">
+                              <label  class="col-md-2 control-label">电子邮箱</label>
+                              <div class="col-md-10">
+                                 <form:input path="email" class="form-control" placeholder="电子邮箱"/><br/>
+                                 <form:errors path="email" class="field-has-error"></form:errors>
+                              </div>
+                           </div>                                                               
                         </div>
                         <div class="form-actions fluid">
                            <div class="col-md-offset-6 col-md-6">

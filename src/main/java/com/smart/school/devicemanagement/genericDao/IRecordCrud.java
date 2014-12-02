@@ -26,7 +26,7 @@ public interface IRecordCrud<T, PK extends Serializable> {
 	void batchDelete(Collection<T> collection);
 
 	int batchExecute(final String hql, final Object... values);
-
+	
 	Query createQuery(final String queryString, final Map<String, ?> values);
 
 	Query createQuery(final String queryString, final Object... values);

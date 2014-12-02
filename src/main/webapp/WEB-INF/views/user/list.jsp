@@ -163,7 +163,7 @@
 	                     </div>
 	                     <c:import url = "../shared/paging.jsp">
 	        				<c:param name="pageModelName" value="contentModel"/>
-	        				<c:param name="urlAddress" value="/account/list"/>
+	        				<c:param name="urlAddress" value="/user/list"/>
 	       				 </c:import>
        				 </div>
                   </div>
@@ -187,15 +187,13 @@
          
          $(".table-toolbar").toolbarLite({
              items: [
-                 { link: true, display: "启用", css: "icon-ok", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/account/enable/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>",
-                	 selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", singleSelect: "该操作只支持单选！"},
-                 { splitter: true }, 
-                 { link: true, display: "禁用", css: "icon-remove", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/account/disable/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
-                 	 selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", singleSelect: "该操作只支持单选！"},
-                 { splitter: true }, 
-                 { link: true, display: "账户绑定", css: "icon-user", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/account/authorize/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
+				{ link: true, display: "新建", css: "icon-plus", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/user/add", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>" },
+				{ splitter: true }, 
+				{ link: true, display: "编辑", css: "icon-edit", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/user/edit/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
+				  	selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", singleSelect: "该操作只支持单选！"},
+                 { link: true, display: "账户绑定", css: "icon-user", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/user/authorize/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
                    	 selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", singleSelect: "该操作只支持单选！"},
-                 { link: true, display: "删除", css: "icon-trash", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/account/delete/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
+                 { link: true, display: "删除", css: "icon-trash", showIcon: true, url: "<%=UrlHelper.resolveWithReturnUrl("/user/delete/{0}", request.getAttribute("requestUrl"), request.getAttribute("requestQuery"), pageContext)%>", 
                    	 selector: "#data-table .checkboxes", mustSelect: "请先选择数据！", confirm: "确认删除所选数据吗？"}
              ]
          });

@@ -139,6 +139,7 @@
 		                           <tr>
 		                              <th class="table-checkbox"><input type="checkbox" class="group-checkable"/></th>
 		                              <th>标题</th>
+		                              <th>公告类型</th>
 		                              <th >发布时间</th>
 		                           </tr>
 		                        </thead>
@@ -149,6 +150,7 @@
 									        <input type="checkbox" class="checkboxes" name="Id" value="${ item.pk }" />
 									    </td>
 							            <td>${ item.title }</td>
+							            <td>${ item.newsType.strName }</td>
 							            <td>${ item.publicTime.getTime().toLocaleString() }</td>
 							        </tr>
 							        </c:forEach>

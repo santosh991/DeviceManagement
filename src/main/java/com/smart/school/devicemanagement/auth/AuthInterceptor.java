@@ -21,13 +21,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 return true;
             else{
             	
-            	AccountAuth accountAuth=AuthHelper.getSessionAccountAuth(request);
-            	if(accountAuth!=null)
+            	AccountAuth userAuth=AuthHelper.getSessionAccountAuth(request);
+            	if(userAuth!=null)
             	{
             		boolean hasPermission=false;
             		String requestServletPath=request.getServletPath();
             		
-            		for(PermissionMenu permissionMenu : accountAuth.getAccountRole().getPermissionMenus()){
+            		for(PermissionMenu permissionMenu : userAuth.getAccountRole().getPermissionMenus()){
             			
             			Pattern pattern = Pattern.compile(permissionMenu.getPermission(),Pattern.CASE_INSENSITIVE);
             			Matcher matcher = pattern.matcher(requestServletPath);
@@ -44,7 +44,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             	else
             	{
             		StringBuilder urlBuilder=new StringBuilder(request.getContextPath());
-            		urlBuilder.append("/account/login");
+            		urlBuilder.append("/user/login");
             		if(request.getServletPath()!=null && !request.getServletPath().isEmpty()){
             			urlBuilder.append("?returnUrl=");
             			

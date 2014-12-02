@@ -37,10 +37,13 @@ import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.common.utilities.PageListUtil;
 import com.smart.school.devicemanagement.models.NewsInfo;
+import com.smart.school.devicemanagement.models.NewsType;
 import com.smart.school.devicemanagement.models.User;
 import com.smart.school.devicemanagement.services.ICustomInfoService;
 import com.smart.school.devicemanagement.services.INewsInfoService;
+import com.smart.school.devicemanagement.services.INewsTypeService;
 import com.smart.school.devicemanagement.web.domain.NewsInfoModel;
+import com.smart.school.devicemanagement.web.domain.NewsTypeModel;
 
 @Controller
 @RequestMapping(value = "/newsInfo")
@@ -81,6 +84,12 @@ public class NewsInfoController extends BaseController{
 			
 			model.addAttribute("contentModel", newsInfoModel);
 		}
+		if(!model.containsAttribute("users")){
+			INewsTypeService newsTypeService = ProjectContext.getBean(INewsTypeService.class);
+			List<NewsType> newsTypes = newsTypeService.getAll();
+			
+			model.addAttribute("users", newsTypes);
+		}
 		
         return "newsInfo/add";	
 	}
@@ -98,7 +107,11 @@ public class NewsInfoController extends BaseController{
 			newsInfoModel.setPk(UUID.randomUUID().toString());
 			
 			BeanUtils.copyProperties(newsInfoModel, newsInfo);
-			
+			if (newsInfoModel.getNewsTypeModel() != null) {
+				NewsType newsType = new NewsType();
+				newsType.setPk(newsInfoModel.getNewsTypeModel().getPk());
+				newsInfo.setNewsType(newsType);
+			}
 			newsInfo.setPublicTime(Calendar.getInstance());
 			newsInfo.setUser(AuthHelper.getCurrUser(request));
 			
@@ -118,9 +131,16 @@ public class NewsInfoController extends BaseController{
 			NewsInfo newsInfo= newsInfoService.getByPk(pk);
 			NewsInfoModel newsInfoModel = new NewsInfoModel();
 			BeanUtils.copyProperties(newsInfo, newsInfoModel);
+			NewsTypeModel newsTypeModel = new NewsTypeModel(newsInfo.getNewsType().getPk());
+			newsInfoModel.setNewsTypeModel(newsTypeModel);
 			model.addAttribute("contentModel", newsInfoModel);
 		}
-		
+		if(!model.containsAttribute("users")){
+			INewsTypeService newsTypeService = ProjectContext.getBean(INewsTypeService.class);
+			List<NewsType> newsTypes = newsTypeService.getAll();
+			
+			model.addAttribute("users", newsTypes);
+		}
         return "newsInfo/edit";	
 	}
 	
@@ -136,7 +156,11 @@ public class NewsInfoController extends BaseController{
         NewsInfo newsInfo = newsInfoService.getByPk(pk);
         if (newsInfo != null) {
         	BeanUtils.copyProperties(editModel, newsInfo);
-        	
+        	if (editModel.getNewsTypeModel() != null) {
+				NewsType newsType = new NewsType();
+				newsType.setPk(editModel.getNewsTypeModel().getPk());
+				newsInfo.setNewsType(newsType);
+			}
             newsInfoService.saveOrUpdate(newsInfo);
 		}
         if(returnUrl==null)
@@ -149,7 +173,10 @@ public class NewsInfoController extends BaseController{
 	@RequestMapping(value = "/delete/{pk}", method = {RequestMethod.GET})
 	public String delete(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
-		newsInfoService.deleteByPk(pk);
+		for (String strId : pk.split(",")) {
+			newsInfoService.deleteByPk(strId);
+		}
+		
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
 		if(returnUrl==null)
         	returnUrl="newsInfo/list";
@@ -157,6 +184,12 @@ public class NewsInfoController extends BaseController{
 	}
 	
 	
+	public NewsInfoController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	@RequestMapping(value="/appNewsInfo", method = {RequestMethod.GET})
 	public void appLogin(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);

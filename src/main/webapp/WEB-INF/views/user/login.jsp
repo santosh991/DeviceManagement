@@ -84,7 +84,7 @@
 			<div class="create-account">
 				<p>
 					还没有账户 ?&nbsp; 
-					<a href="<c:url value='/account/register'/>" id="register-btn" >注册新账户</a>
+					<a href="<c:url value='/user/register'/>" id="register-btn" >注册新账户</a>
 				</p>
 			</div>
 		</form:form>

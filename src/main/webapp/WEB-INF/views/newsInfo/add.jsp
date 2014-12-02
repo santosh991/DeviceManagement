@@ -86,6 +86,15 @@
                               </div>
                            </div>
                            <div class="form-group">
+                              <label  class="col-md-2 control-label">公告类型</label>
+                              <div class="col-md-10">
+                              	<form:select path="newsTypeModel"  multiple="false" class="form-control" >
+                              		<form:options items="${users}" itemLabel="strName" itemValue="pk"/>
+                              	</form:select>
+                                 <form:errors path="newsTypeModel" class="field-has-error"></form:errors>
+                              </div>
+                           </div>      
+                           <div class="form-group">
                               <label  class="col-md-2 control-label">内容</label>
                               <div class="col-md-10">
                                  <form:textarea path="content" class="form-control" placeholder="公告内容"/><br/>

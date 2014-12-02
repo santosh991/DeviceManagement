@@ -1,11 +1,6 @@
 package com.smart.school.devicemanagement.web.domain;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
-import com.smart.school.devicemanagement.models.SchoolInfo;
-import com.smart.school.devicemanagement.models.User;
 
 public class NewsInfoModel implements java.io.Serializable{
 
@@ -14,7 +9,18 @@ public class NewsInfoModel implements java.io.Serializable{
 	@NotEmpty(message="标题不能为空")
 	private String title;
 	private String content;
+	private NewsTypeModel newsTypeModel;
 	
+	public NewsInfoModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public NewsInfoModel(String pk) {
+		super();
+		this.pk = pk;
+	}
+
 	public String getPk() {
 		return pk;
 	}
@@ -33,6 +39,14 @@ public class NewsInfoModel implements java.io.Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public NewsTypeModel getNewsTypeModel() {
+		return newsTypeModel;
+	}
+	public void setNewsTypeModel(NewsTypeModel newsTypeModel) {
+		this.newsTypeModel = newsTypeModel;
+	}
+	
+	
 	
 	
 }

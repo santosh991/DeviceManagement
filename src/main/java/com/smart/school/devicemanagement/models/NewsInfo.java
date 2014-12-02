@@ -20,6 +20,7 @@ public class NewsInfo implements java.io.Serializable{
 	private String title;
 	private String content;
 	private Calendar publicTime;
+	private NewsType newsType;
 	
 	public NewsInfo() {
 		super();
@@ -69,6 +70,14 @@ public class NewsInfo implements java.io.Serializable{
 	}
 	public void setPublicTime(Calendar publicTime) {
 		this.publicTime = publicTime;
+	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="fk_newsType")
+	public NewsType getNewsType() {
+		return newsType;
+	}
+	public void setNewsType(NewsType newsType) {
+		this.newsType = newsType;
 	}
 	
 	
