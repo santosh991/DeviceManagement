@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.smart.school.devicemanagement.common.Uploader" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@ include file="../shared/taglib.jsp"%>
@@ -20,6 +21,11 @@
    <%@ include file="../shared/importCss.jsp"%>
    <%@ include file="../shared/importJs.jsp"%>
    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+   <link href="<c:url value='/umeditor/themes/default/css/umeditor.css'/>" type="text/css" rel="stylesheet">
+   <script type="text/javascript" charset="utf-8" src="<c:url value='/umeditor/umeditor.config.js'/>"></script> 
+   <script type="text/javascript" charset="utf-8" src="<c:url value='/umeditor/umeditor.min.js'/>"></script> 
+   <script type="text/javascript" src="<c:url value='/umeditor/lang/zh-cn/zh-cn.js'/>"></script>
+   
    <script type="text/javascript" src="<c:url value='/js/jquery.treeLite.js?ver=10'/>"></script>
    <script type="text/javascript" src="<c:url value='/js/app.js'/>"></script> 
    <!-- END PAGE LEVEL SCRIPTS -->
@@ -97,7 +103,11 @@
                            <div class="form-group">
                               <label  class="col-md-2 control-label">内容</label>
                               <div class="col-md-10">
-                                 <form:textarea path="content" class="form-control" placeholder="公告内容"/><br/>
+                                 <!--style给定宽度可以影响编辑器的最终宽度-->
+								<script type="text/plain" id="myEditor" style="width:720px;height:240px;">
+    								${contentModel.content}
+								</script>
+                                 <br/>
                                  <form:errors path="content" class="field-has-error"></form:errors>
                               </div>
                            </div>                                                                  
@@ -126,6 +136,10 @@
       });
    </script>
    <!-- END JAVASCRIPTS -->   
+   <script type="text/javascript">
+    //实例化编辑器
+    var um = UM.getEditor('myEditor');
+    </script>
 </body>
 <!-- END BODY -->
 </html>

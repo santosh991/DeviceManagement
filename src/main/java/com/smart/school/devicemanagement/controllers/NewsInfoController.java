@@ -115,6 +115,8 @@ public class NewsInfoController extends BaseController{
 			newsInfo.setPublicTime(Calendar.getInstance());
 			newsInfo.setUser(AuthHelper.getCurrUser(request));
 			
+			String content = request.getParameter("editorValue");
+			newsInfo.setContent(content);
 			newsInfoService.saveOrUpdate(newsInfo);
         }
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
@@ -161,6 +163,8 @@ public class NewsInfoController extends BaseController{
 				newsType.setPk(editModel.getNewsTypeModel().getPk());
 				newsInfo.setNewsType(newsType);
 			}
+        	String content = request.getParameter("editorValue");
+			newsInfo.setContent(content);
             newsInfoService.saveOrUpdate(newsInfo);
 		}
         if(returnUrl==null)
@@ -213,6 +217,10 @@ public class NewsInfoController extends BaseController{
 	        		if (newsInfo.getPublicTime() != null) {
 	        			String time=df.format(newsInfo.getPublicTime().getTime());
 	        			app_NewsInfoModel.setStrPublicTime(time);
+					}
+	        		if (newsInfo.getNewsType() != null) {
+	        			app_NewsInfoModel.setStrPublicTime(newsInfo.getNewsType().getStrName());
+	        			app_NewsInfoModel.setNewsTypeLevel(newsInfo.getNewsType().getLevel());
 					}
 	        		app_NewsInfoModels.add(app_NewsInfoModel);
 				}

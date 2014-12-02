@@ -16,6 +16,15 @@ public class App_NewsInfoModel implements Serializable {
 	private String title;
 	private String content;
 	private String strPublicTime;
+	private String newsTypeName;
+	private int newsTypeLevel;
+	
+	
+	
+	public App_NewsInfoModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public String getPk() {
 		return pk;
 	}
@@ -63,6 +72,18 @@ public class App_NewsInfoModel implements Serializable {
 	}
 	public void setStrPublicTime(String strPublicTime) {
 		this.strPublicTime = strPublicTime;
+	}
+	public String getNewsTypeName() {
+		return newsTypeName;
+	}
+	public void setNewsTypeName(String newsTypeName) {
+		this.newsTypeName = newsTypeName;
+	}
+	public int getNewsTypeLevel() {
+		return newsTypeLevel;
+	}
+	public void setNewsTypeLevel(int newsTypeLevel) {
+		this.newsTypeLevel = newsTypeLevel;
 	}
 	
 	
