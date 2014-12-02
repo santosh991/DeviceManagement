@@ -1,5 +1,6 @@
 package com.smart.school.devicemanagement.models;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -12,13 +13,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "NewsInfo")
-public class NewsInfo implements java.io.Serializable{
+public class NewsInfo implements Serializable{
 
 	private String pk;
 	private SchoolInfo schoolInfo;
 	private User user;
 	private String title;
-	private String content;
+	private String url;
 	private Calendar publicTime;
 	private NewsType newsType;
 	
@@ -57,12 +58,12 @@ public class NewsInfo implements java.io.Serializable{
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	@Column(name = "content",  length = 2048)
-	public String getContent() {
-		return content;
+	@Column(name = "url",  length = 256)
+	public String getUrl() {
+		return url;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	@Column(name = "publicTime",  nullable = false)
 	public Calendar getPublicTime() {

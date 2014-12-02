@@ -36,10 +36,12 @@ import com.smart.school.devicemanagement.common.JSONHelper;
 import com.smart.school.devicemanagement.common.ProjectContext;
 import com.smart.school.devicemanagement.common.utilities.PageList;
 import com.smart.school.devicemanagement.common.utilities.PageListUtil;
+import com.smart.school.devicemanagement.models.NewsDetail;
 import com.smart.school.devicemanagement.models.NewsInfo;
 import com.smart.school.devicemanagement.models.NewsType;
 import com.smart.school.devicemanagement.models.User;
 import com.smart.school.devicemanagement.services.ICustomInfoService;
+import com.smart.school.devicemanagement.services.INewsDetailService;
 import com.smart.school.devicemanagement.services.INewsInfoService;
 import com.smart.school.devicemanagement.services.INewsTypeService;
 import com.smart.school.devicemanagement.web.domain.NewsInfoModel;
@@ -101,9 +103,11 @@ public class NewsInfoController extends BaseController{
 		if(result.hasErrors())
             return add(model);
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
+		INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
 		
 		if(newsInfoModel != null ){
 			NewsInfo newsInfo = new NewsInfo();
+			
 			newsInfoModel.setPk(UUID.randomUUID().toString());
 			
 			BeanUtils.copyProperties(newsInfoModel, newsInfo);
@@ -114,10 +118,13 @@ public class NewsInfoController extends BaseController{
 			}
 			newsInfo.setPublicTime(Calendar.getInstance());
 			newsInfo.setUser(AuthHelper.getCurrUser(request));
-			
-			String content = request.getParameter("editorValue");
-			newsInfo.setContent(content);
+
+			//save newsInfo
 			newsInfoService.saveOrUpdate(newsInfo);
+			//save newsDetail
+			String content = request.getParameter("editorValue");
+			NewsDetail newsDetail = new NewsDetail(newsInfo,content);
+			newsDetailService.saveOrUpdate(newsDetail);
         }
 		String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
 		if(returnUrl==null)
@@ -129,12 +136,15 @@ public class NewsInfoController extends BaseController{
 	@RequestMapping(value = "/edit/{pk}", method = {RequestMethod.GET})
 	public String edit(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {	
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
+		INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
 		if(!model.containsAttribute("contentModel")){
 			NewsInfo newsInfo= newsInfoService.getByPk(pk);
+			NewsDetail newsDetail = newsDetailService.getByPk(pk);
 			NewsInfoModel newsInfoModel = new NewsInfoModel();
 			BeanUtils.copyProperties(newsInfo, newsInfoModel);
 			NewsTypeModel newsTypeModel = new NewsTypeModel(newsInfo.getNewsType().getPk());
 			newsInfoModel.setNewsTypeModel(newsTypeModel);
+			newsInfoModel.setContent(newsDetail.getContent());
 			model.addAttribute("contentModel", newsInfoModel);
 		}
 		if(!model.containsAttribute("users")){
@@ -152,7 +162,7 @@ public class NewsInfoController extends BaseController{
         if(result.hasErrors())
             return edit(request, model, pk);
         INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
-        
+        INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
         String returnUrl = ServletRequestUtils.getStringParameter(request, "returnUrl", null);
         
         NewsInfo newsInfo = newsInfoService.getByPk(pk);
@@ -163,9 +173,12 @@ public class NewsInfoController extends BaseController{
 				newsType.setPk(editModel.getNewsTypeModel().getPk());
 				newsInfo.setNewsType(newsType);
 			}
-        	String content = request.getParameter("editorValue");
-			newsInfo.setContent(content);
-            newsInfoService.saveOrUpdate(newsInfo);
+        	//save newsInfo
+			newsInfoService.saveOrUpdate(newsInfo);
+			//save newsDetail
+			String content = request.getParameter("editorValue");
+			NewsDetail newsDetail = new NewsDetail(newsInfo,content);
+			newsDetailService.saveOrUpdate(newsDetail);
 		}
         if(returnUrl==null)
         	returnUrl="newsInfo/list";
@@ -177,7 +190,9 @@ public class NewsInfoController extends BaseController{
 	@RequestMapping(value = "/delete/{pk}", method = {RequestMethod.GET})
 	public String delete(HttpServletRequest request, Model model, @PathVariable(value="pk") String pk) {
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
+		INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
 		for (String strId : pk.split(",")) {
+			newsDetailService.deleteByPk(strId);
 			newsInfoService.deleteByPk(strId);
 		}
 		
@@ -194,54 +209,95 @@ public class NewsInfoController extends BaseController{
 	}
 
 
-	@RequestMapping(value="/appNewsInfo", method = {RequestMethod.GET})
-	public void appLogin(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);
-		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
-		
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		
-		 PrintWriter pw = null;  
-	        try {  
-	        	String strName = request.getParameter("pk");
-	        	
-	        	List<NewsInfo> newsInfos = newsInfoService.getAll();
-	        	List<App_NewsInfoModel> app_NewsInfoModels = new ArrayList<App_NewsInfoModel>();
-	        	for (NewsInfo newsInfo : newsInfos) {
-	        		App_NewsInfoModel app_NewsInfoModel = new App_NewsInfoModel();
-	        		BeanUtils.copyProperties(newsInfo, app_NewsInfoModel);
-	        		if (newsInfo.getUser() != null) {
-	        			app_NewsInfoModel.setPublicUserId(newsInfo.getUser().getPk());
-	        			app_NewsInfoModel.setPublicUserName(newsInfo.getUser().getStrName());
-					}
-	        		if (newsInfo.getPublicTime() != null) {
-	        			String time=df.format(newsInfo.getPublicTime().getTime());
-	        			app_NewsInfoModel.setStrPublicTime(time);
-					}
-	        		if (newsInfo.getNewsType() != null) {
-	        			app_NewsInfoModel.setStrPublicTime(newsInfo.getNewsType().getStrName());
-	        			app_NewsInfoModel.setNewsTypeLevel(newsInfo.getNewsType().getLevel());
-					}
-	        		app_NewsInfoModels.add(app_NewsInfoModel);
-				}
-	        	
-				response.setContentType("text/xml;charset=utf-8");   
-	            response.setCharacterEncoding("UTF-8");  
-	            response.setHeader("Cache-Control", "no-cache");  
+	@RequestMapping(value = "/appNewsInfo", method = { RequestMethod.GET })
+	public void appLogin(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		ICustomInfoService customInfoService = ProjectContext
+				.getBean(ICustomInfoService.class);
+		INewsInfoService newsInfoService = ProjectContext
+				.getBean(INewsInfoService.class);
 
-		            pw = response.getWriter();  
-		            String xmlContent = JSONHelper.toJSON(app_NewsInfoModels);
-		            pw.print(xmlContent);  
-		            pw.flush();  
-	        }  
-	        catch (Exception e) {  
-	            log.error("",e);
-	        }  
-	        finally {  
-	            if (pw != null)  
-	                pw.close();  
-	        }  
-		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+		PrintWriter pw = null;
+		try {
+			String strName = request.getParameter("pk");
+
+			List<NewsInfo> newsInfos = newsInfoService.getAll();
+			List<App_NewsInfoModel> app_NewsInfoModels = new ArrayList<App_NewsInfoModel>();
+			for (NewsInfo newsInfo : newsInfos) {
+				App_NewsInfoModel app_NewsInfoModel = new App_NewsInfoModel();
+				BeanUtils.copyProperties(newsInfo, app_NewsInfoModel);
+				if (newsInfo.getUser() != null) {
+					app_NewsInfoModel.setPublicUserId(newsInfo.getUser()
+							.getPk());
+					app_NewsInfoModel.setPublicUserName(newsInfo.getUser()
+							.getStrName());
+				}
+				if (newsInfo.getPublicTime() != null) {
+					String time = df.format(newsInfo.getPublicTime().getTime());
+					app_NewsInfoModel.setStrPublicTime(time);
+				}
+				if (newsInfo.getNewsType() != null) {
+					app_NewsInfoModel.setNewsTypeName(newsInfo.getNewsType().getStrName());
+					app_NewsInfoModel.setNewsTypeLevel(newsInfo.getNewsType().getLevel());
+				}
+				app_NewsInfoModels.add(app_NewsInfoModel);
+			}
+
+			response.setContentType("text/xml;charset=utf-8");
+			response.setCharacterEncoding("UTF-8");
+			response.setHeader("Cache-Control", "no-cache");
+
+			pw = response.getWriter();
+			String xmlContent = JSONHelper.toJSON(app_NewsInfoModels);
+			pw.print(xmlContent);
+			pw.flush();
+		} catch (Exception e) {
+			log.error("", e);
+		} finally {
+			if (pw != null)
+				pw.close();
+		}
+
+	}
+
+	@RequestMapping(value = "/detail.html", method = { RequestMethod.GET })
+	public void detail(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
+//		http://127.0.0.1/DMService/newsInfo/detail.html?pk=c06a0c04-703a-4e31-afb5-17d927317016
+		PrintWriter pw = null;
+		try {
+			String pk = request.getParameter("pk");
+
+			NewsDetail newsDetail = newsDetailService.getByPk(pk);
+
+			response.setContentType("text/html;charset=utf-8");
+			response.setCharacterEncoding("UTF-8");
+			response.setHeader("Cache-Control", "no-cache");
+
+			pw = response.getWriter();
+			
+			pw.println("<!DOCTYPE HTML>");
+			pw.println("<html>");
+			pw.println("<body>");
+			pw.println("<div>");
+			if (newsDetail != null) {
+				String xmlContent = newsDetail.getContent();
+				pw.println(xmlContent);
+			}
+			pw.println("</div>");
+			pw.println("</body>");
+			pw.println("</html>");
+			pw.flush();
+		} catch (Exception e) {
+			log.error("", e);
+		} finally {
+			if (pw != null)
+				pw.close();
+		}
+
 	}
 
 }
