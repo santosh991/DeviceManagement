@@ -58,8 +58,6 @@ public class DeviceInfoController extends BaseController{
 		}else {
 			model.addAttribute("contentModel", deviceInfoService.listPage( pageNo, pageSize ,Order.asc("strName"),Restrictions.like("strName",searchModel.getStrName(),MatchMode.ANYWHERE)));
 		}
-        
-
         return "deviceInfo/list";
     }
 	

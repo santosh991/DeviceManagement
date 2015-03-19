@@ -25,11 +25,11 @@ public class UpdateController {
 		try {
 			
 //			UpdateController.class.getResourceAsStream(arg0)
-			String path = "/apks/apkVersion.properties";
-			ppt.load(new FileInputStream(path));
-			apkVersion = ppt.getProperty("apkVersion");
-			apkSize = ppt.getProperty("apkSize");
-			apkPath = ppt.getProperty("apkPath");
+//			String path = "/apks/apkVersion.properties";
+//			ppt.load(new FileInputStream(path));
+//			apkVersion = ppt.getProperty("apkVersion");
+//			apkSize = ppt.getProperty("apkSize");
+//			apkPath = ppt.getProperty("apkPath");
 		} catch (Exception e) {
 			log.debug("", e);
 		}
@@ -42,4 +42,6 @@ public class UpdateController {
 		
         return "1.0.0";
  }
+	
+	
 }

@@ -261,6 +261,56 @@ public class NewsInfoController extends BaseController{
 		}
 
 	}
+	
+	public void getLastAppNewsInfo(HttpServletRequest request,
+			HttpServletResponse response) throws IOException{
+		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
+		INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
+		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
+		PrintWriter pw = null;
+		try {
+			String strName = request.getParameter("pk");
+
+			List<NewsInfo> newsInfos = newsInfoService.getAll();
+			List<App_NewsInfoModel> app_NewsInfoModels = new ArrayList<App_NewsInfoModel>();
+			for (NewsInfo newsInfo : newsInfos) {
+				App_NewsInfoModel app_NewsInfoModel = new App_NewsInfoModel();
+				BeanUtils.copyProperties(newsInfo, app_NewsInfoModel);
+				if (newsInfo.getUser() != null) {
+					app_NewsInfoModel.setPublicUserId(newsInfo.getUser()
+							.getPk());
+					app_NewsInfoModel.setPublicUserName(newsInfo.getUser()
+							.getStrName());
+				}
+				if (newsInfo.getPublicTime() != null) {
+					String time = df.format(newsInfo.getPublicTime().getTime());
+					app_NewsInfoModel.setStrPublicTime(time);
+				}
+				if (newsInfo.getNewsType() != null) {
+					app_NewsInfoModel.setNewsTypeName(newsInfo.getNewsType().getStrName());
+					app_NewsInfoModel.setNewsTypeLevel(newsInfo.getNewsType().getLevel());
+				}
+				app_NewsInfoModels.add(app_NewsInfoModel);
+			}
+
+			response.setContentType("text/xml;charset=utf-8");
+			response.setCharacterEncoding("UTF-8");
+			response.setHeader("Cache-Control", "no-cache");
+
+			pw = response.getWriter();
+			String xmlContent = JSONHelper.toJSON(app_NewsInfoModels);
+			pw.print(xmlContent);
+			pw.flush();
+		} catch (Exception e) {
+			log.error("", e);
+		} finally {
+			if (pw != null)
+				pw.close();
+		}
+
+	}
 
 	@RequestMapping(value = "/detail.html", method = { RequestMethod.GET })
 	public void detail(HttpServletRequest request, HttpServletResponse response)
