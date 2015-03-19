@@ -17,6 +17,12 @@ public class NewsType {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public NewsType(String pk) {
+		super();
+		this.pk = pk;
+	}
+	
 	public NewsType(String pk, String strName) {
 		super();
 		this.pk = pk;

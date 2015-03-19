@@ -1,10 +1,12 @@
 package com.smart.school.devicemanagement.controllers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -262,6 +264,7 @@ public class NewsInfoController extends BaseController{
 
 	}
 	
+	@RequestMapping(value = "/getLastAppNewsInfo", method = { RequestMethod.GET })
 	public void getLastAppNewsInfo(HttpServletRequest request,
 			HttpServletResponse response) throws IOException{
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
@@ -271,9 +274,12 @@ public class NewsInfoController extends BaseController{
 		
 		PrintWriter pw = null;
 		try {
-			String strName = request.getParameter("pk");
-
-			List<NewsInfo> newsInfos = newsInfoService.getAll();
+			String dt = request.getParameter("dt");
+			Date date = df.parse(dt);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			PageList<NewsInfo> pageList = newsInfoService.listPage(0, 100, Order.desc("publicTime"), Restrictions.gt("publicTime", calendar));
+			List<NewsInfo> newsInfos = pageList.getItems();
 			List<App_NewsInfoModel> app_NewsInfoModels = new ArrayList<App_NewsInfoModel>();
 			for (NewsInfo newsInfo : newsInfos) {
 				App_NewsInfoModel app_NewsInfoModel = new App_NewsInfoModel();
@@ -310,6 +316,36 @@ public class NewsInfoController extends BaseController{
 				pw.close();
 		}
 
+	}
+	
+	@RequestMapping(value = "/publisByApp", method = { RequestMethod.POST })
+	public void publisByApp(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
+		INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
+		
+		String userId = request.getParameter("userId");
+		String title = request.getParameter("title");
+		BufferedReader reader = request.getReader();
+		String input = null;
+		String requestBody = "";
+		while ((input = reader.readLine()) != null) {
+			requestBody = requestBody + input + "<br>";
+		}
+		log.debug("发布内容:"+title+":"+requestBody);
+		NewsInfo newsInfo = new NewsInfo();
+		newsInfo.setNewsType(new NewsType("1"));
+		newsInfo.setPk(UUID.randomUUID().toString());
+		newsInfo.setPublicTime(Calendar.getInstance());
+		newsInfo.setTitle(title);
+		newsInfo.setUser(new User(userId));
+		newsInfoService.saveOrUpdate(newsInfo);
+		
+		NewsDetail newsDetail = new NewsDetail();
+		newsDetail.setNewsInfo(newsInfo);
+		newsDetail.setPk(newsInfo.getPk());
+		newsDetail.setContent(requestBody);
+		newsDetailService.saveOrUpdate(newsDetail);
 	}
 
 	@RequestMapping(value = "/detail.html", method = { RequestMethod.GET })
