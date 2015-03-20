@@ -14,7 +14,7 @@ public class App_NewsInfoModel implements Serializable {
 	private String publicUserId;
 	private String publicUserName;
 	private String title;
-	
+	private String content;
 	private String strPublicTime;
 	private String newsTypeName;
 	private int newsTypeLevel;
@@ -80,6 +80,12 @@ public class App_NewsInfoModel implements Serializable {
 	public void setNewsTypeLevel(int newsTypeLevel) {
 		this.newsTypeLevel = newsTypeLevel;
 	}
-	
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	 
 	
 }

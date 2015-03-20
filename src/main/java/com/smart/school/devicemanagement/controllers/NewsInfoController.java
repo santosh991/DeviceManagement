@@ -55,6 +55,8 @@ public class NewsInfoController extends BaseController{
 
 	private static final Logger log = LoggerFactory.getLogger(NewsInfoController.class);
 	
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	
 	@AuthPassport
 	@RequestMapping(value="/list", method = {RequestMethod.GET})
     public String list(HttpServletRequest request, Model model, NewsInfo searchModel){ 	
@@ -270,7 +272,7 @@ public class NewsInfoController extends BaseController{
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
 		INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
 		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
 		
 		PrintWriter pw = null;
 		try {
@@ -282,22 +284,7 @@ public class NewsInfoController extends BaseController{
 			List<NewsInfo> newsInfos = pageList.getItems();
 			List<App_NewsInfoModel> app_NewsInfoModels = new ArrayList<App_NewsInfoModel>();
 			for (NewsInfo newsInfo : newsInfos) {
-				App_NewsInfoModel app_NewsInfoModel = new App_NewsInfoModel();
-				BeanUtils.copyProperties(newsInfo, app_NewsInfoModel);
-				if (newsInfo.getUser() != null) {
-					app_NewsInfoModel.setPublicUserId(newsInfo.getUser()
-							.getPk());
-					app_NewsInfoModel.setPublicUserName(newsInfo.getUser()
-							.getStrName());
-				}
-				if (newsInfo.getPublicTime() != null) {
-					String time = df.format(newsInfo.getPublicTime().getTime());
-					app_NewsInfoModel.setStrPublicTime(time);
-				}
-				if (newsInfo.getNewsType() != null) {
-					app_NewsInfoModel.setNewsTypeName(newsInfo.getNewsType().getStrName());
-					app_NewsInfoModel.setNewsTypeLevel(newsInfo.getNewsType().getLevel());
-				}
+				App_NewsInfoModel app_NewsInfoModel = parse(newsInfo);
 				app_NewsInfoModels.add(app_NewsInfoModel);
 			}
 
@@ -318,34 +305,73 @@ public class NewsInfoController extends BaseController{
 
 	}
 	
-	@RequestMapping(value = "/publisByApp", method = { RequestMethod.POST })
+	private App_NewsInfoModel parse(NewsInfo newsInfo){
+		App_NewsInfoModel app_NewsInfoModel = new App_NewsInfoModel();
+		BeanUtils.copyProperties(newsInfo, app_NewsInfoModel);
+		if (newsInfo.getUser() != null) {
+			app_NewsInfoModel.setPublicUserId(newsInfo.getUser()
+					.getPk());
+			app_NewsInfoModel.setPublicUserName(newsInfo.getUser()
+					.getStrName());
+		}
+		if (newsInfo.getPublicTime() != null) {
+			String time = df.format(newsInfo.getPublicTime().getTime());
+			app_NewsInfoModel.setStrPublicTime(time);
+		}
+		if (newsInfo.getNewsType() != null) {
+			app_NewsInfoModel.setNewsTypeName(newsInfo.getNewsType().getStrName());
+			app_NewsInfoModel.setNewsTypeLevel(newsInfo.getNewsType().getLevel());
+		}
+		return app_NewsInfoModel;
+	}
+	
+	@RequestMapping(value = "/publisByApp", method = { RequestMethod.GET })
 	public void publisByApp(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		INewsInfoService newsInfoService = ProjectContext.getBean(INewsInfoService.class);
 		INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
 		
-		String userId = request.getParameter("userId");
-		String title = request.getParameter("title");
-		BufferedReader reader = request.getReader();
-		String input = null;
-		String requestBody = "";
-		while ((input = reader.readLine()) != null) {
-			requestBody = requestBody + input + "<br>";
-		}
-		log.debug("发布内容:"+title+":"+requestBody);
-		NewsInfo newsInfo = new NewsInfo();
-		newsInfo.setNewsType(new NewsType("1"));
-		newsInfo.setPk(UUID.randomUUID().toString());
-		newsInfo.setPublicTime(Calendar.getInstance());
-		newsInfo.setTitle(title);
-		newsInfo.setUser(new User(userId));
-		newsInfoService.saveOrUpdate(newsInfo);
+		String strContent = request.getParameter("newsInfo");
+		PrintWriter pw = null;
+		try {
+			App_NewsInfoModel app_NewsInfoModel = JSONHelper.parseObject(strContent, App_NewsInfoModel.class);
 		
-		NewsDetail newsDetail = new NewsDetail();
-		newsDetail.setNewsInfo(newsInfo);
-		newsDetail.setPk(newsInfo.getPk());
-		newsDetail.setContent(requestBody);
-		newsDetailService.saveOrUpdate(newsDetail);
+//		BufferedReader reader = request.getReader();
+//		String input = null;
+//		String requestBody = "";
+//		while ((input = reader.readLine()) != null) {
+//			requestBody = requestBody + input + "<br>";
+//		}
+			log.debug("发布内容:"+app_NewsInfoModel.getTitle()+":"+app_NewsInfoModel.getContent());
+			NewsInfo newsInfo = new NewsInfo();
+			newsInfo.setNewsType(new NewsType("1"));
+			newsInfo.setPk(UUID.randomUUID().toString());
+			newsInfo.setPublicTime(Calendar.getInstance());
+			newsInfo.setTitle(app_NewsInfoModel.getTitle());
+			newsInfo.setUser(new User("111"));
+			newsInfoService.saveOrUpdate(newsInfo);
+			
+			NewsDetail newsDetail = new NewsDetail();
+			newsDetail.setNewsInfo(newsInfo);
+			newsDetail.setPk(newsInfo.getPk());
+			newsDetail.setContent(app_NewsInfoModel.getContent());
+			newsDetailService.saveOrUpdate(newsDetail);
+		
+			response.setContentType("text/xml;charset=utf-8");
+			response.setCharacterEncoding("UTF-8");
+			response.setHeader("Cache-Control", "no-cache");
+			app_NewsInfoModel = parse(newsInfo);
+			pw = response.getWriter();
+			String xmlContent = JSONHelper.toJSON(app_NewsInfoModel);
+			pw.print(xmlContent);
+			pw.flush();
+		} catch (Exception e) {
+			log.error("", e);
+		} finally {
+			if (pw != null)
+				pw.close();
+		}
+
 	}
 
 	@RequestMapping(value = "/detail.html", method = { RequestMethod.GET })
