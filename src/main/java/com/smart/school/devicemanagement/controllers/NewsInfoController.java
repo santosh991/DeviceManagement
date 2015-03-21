@@ -55,7 +55,7 @@ public class NewsInfoController extends BaseController{
 
 	private static final Logger log = LoggerFactory.getLogger(NewsInfoController.class);
 	
-	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	@AuthPassport
 	@RequestMapping(value="/list", method = {RequestMethod.GET})
@@ -280,7 +280,7 @@ public class NewsInfoController extends BaseController{
 			Date date = df.parse(dt);
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(date);
-			PageList<NewsInfo> pageList = newsInfoService.listPage(0, 100, Order.desc("publicTime"), Restrictions.gt("publicTime", calendar));
+			PageList<NewsInfo> pageList = newsInfoService.listPage(0, 100, Order.asc("publicTime"), Restrictions.gt("publicTime", calendar));
 			List<NewsInfo> newsInfos = pageList.getItems();
 			List<App_NewsInfoModel> app_NewsInfoModels = new ArrayList<App_NewsInfoModel>();
 			for (NewsInfo newsInfo : newsInfos) {
