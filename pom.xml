@@ -68,6 +68,12 @@
 		  <artifactId>json</artifactId>
 		  <version>20090211</version>
 		</dependency>
+		<!-- rongyun -->
+		<dependency>
+		  <groupId>com.google.code.gson</groupId>
+		  <artifactId>gson</artifactId>
+		  <version>2.2.4</version>
+		</dependency>
 		<!-- log -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

@@ -18,7 +18,7 @@ public class App_NewsInfoModel implements Serializable {
 	private String strPublicTime;
 	private String newsTypeName;
 	private int newsTypeLevel;
-	
+
 	
 	
 	public App_NewsInfoModel() {

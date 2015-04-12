@@ -27,7 +27,7 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements IUs
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	public User verify(String strName,String psd){
-		Criteria criteria = ProjectContext.getBean(IUserDao.class).createCriteria(Order.asc("strName"),Restrictions.eq("strName", strName),Restrictions.eq("psd", psd));
+		Criteria criteria = ProjectContext.getBean(IUserDao.class).createCriteria(Order.asc("strName"),Restrictions.or(Restrictions.eq("strName", strName),Restrictions.eq("phone1", strName)),Restrictions.eq("psd", psd));
 		List<User> users = criteria.list();
 		return users.size() > 0 ? users.get(0):null;
 	}

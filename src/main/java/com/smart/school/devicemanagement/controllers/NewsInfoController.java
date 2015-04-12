@@ -273,7 +273,6 @@ public class NewsInfoController extends BaseController{
 		INewsDetailService newsDetailService = ProjectContext.getBean(INewsDetailService.class);
 		ICustomInfoService customInfoService = ProjectContext.getBean(ICustomInfoService.class);
 		
-		
 		PrintWriter pw = null;
 		try {
 			String dt = request.getParameter("dt");
